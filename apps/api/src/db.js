@@ -37,7 +37,7 @@ export class DB {
           this.db[model.default.name] = model.default;
         });
       });
-
+      
     Object.keys(this.db).forEach((modelName) => {
       if (this.db[modelName].associate) {
         this.db[modelName].associate(db);

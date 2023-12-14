@@ -51,22 +51,23 @@ const globalAPIErrorHandler = (app) => {
  */
 const main = () => {
   DB.initialize();
-
-  const app = express();
-  app.use(cors());
-  app.use(json());
-  app.use('/api', router);
-
-  globalAPIErrorHandler(app);
-  serveWebProjectBuildResult(app);
-
-  app.listen(PORT, (err) => {
-    if (err) {
-      console.log(`ERROR: ${err}`);
-    } else {
-      console.log(`  ➜  [API] Local:   http://localhost:${PORT}/`);
-    }
-  });
 };
+
+const app = express();
+app.use(cors());
+app.use(json());
+app.use('/api', router);
+
+globalAPIErrorHandler(app);
+serveWebProjectBuildResult(app);
+
+app.listen(PORT, (err) => {
+  // DB.sequelize.sync({ alter: true });
+  if (err) {
+    console.log(`ERROR: ${err}`);
+  } else {
+    console.log(`  ➜  [API] Local:   http://localhost:${PORT}/`);
+  }
+});
 
 main();
