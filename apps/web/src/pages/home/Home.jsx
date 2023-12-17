@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { MobilePage } from '../../components/landing-page/mobile-view/Index';
 
@@ -15,6 +16,4 @@ function Home() {
       )}
     </div>
   )
-}
-
 export default Home;
