@@ -59,6 +59,7 @@ export const init = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+
     },
     {
       sequelize,

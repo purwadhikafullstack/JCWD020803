@@ -60,6 +60,7 @@ const globalAPIErrorHandler = (app) => {
     app.use('/api', router);
     app.use('/public', express.static('./public'));
 
+
     globalAPIErrorHandler(app);
     serveWebProjectBuildResult(app);
 
