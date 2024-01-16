@@ -8,12 +8,11 @@ export default class Customer extends Model {
    */
   static associate(models) {
     // define association here
-    Customer.hasMany(models.Transaction);
-    Customer.hasMany(models.Address);
-    Customer.hasOne(models.Cart);
-    Customer.hasOne(models.Favourite);
-    Customer.hasMany(models.User_voucher);
-
+    Customer.hasMany(models.Transaction)
+    Customer.hasMany(models.Address)
+    Customer.hasOne(models.Cart)
+    Customer.hasOne(models.Favourite)
+    Customer.hasMany(models.User_voucher)
   }
 }
 

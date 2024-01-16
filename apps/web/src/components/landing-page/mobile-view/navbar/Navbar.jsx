@@ -11,11 +11,12 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { useState } from 'react';
+import { CartItem } from '../../../../pages/cart.item/cart.item';
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
     <div
-      className="flex justify-between align-middle bg-main-red text-main-light h-[70px] p-[3%] sticky top-0
+      className="flex justify-between align-middle bg-main-red text-main-light h-[70px] p-[3%] sticky top-0 z-20
      "
     >
       <div className="flex align-middle relative">
@@ -26,7 +27,8 @@ export const Navbar = () => {
           <img src={Logo} className="object-fit w-[100px] h-[40px] " />
         </div>
       </div>
-      <div className="flex justify-center align-middle bg-main-pink rounded-[50%] p-[10px]">
+      <CartItem />
+      {/* <div className="flex justify-center align-middle bg-main-black rounded-[50%] p-[10px]">
         <Menu open={open} handler={setOpen} allowHover>
           <MenuHandler className="cursor-pointer">
             <div>
@@ -56,15 +58,17 @@ export const Navbar = () => {
               </div>
             </MenuItem>
             <hr className="my-2 -mt-1" />
-            <MenuItem
-              className="text-center font-poppins font-bold"
-              onClick={() => alert('cart page')}
-            >
-              Show All
-            </MenuItem>
+            <a href="/cart">
+              <MenuItem
+                className="text-center font-poppins font-bold"
+                // onClick={() => alert('cart page')}
+              >
+                Show All
+              </MenuItem>
+            </a>
           </MenuList>
         </Menu>
-      </div>
+      </div> */}
     </div>
   );
 };
