@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { MobilePage } from '../../components/landing-page/mobile-view/Index';
+import { Layout } from '../../components/customers/Index';
+import { MainCarousel } from '../../components/carousel/Index';
+import { CardHome } from '../../components/card-home/Index';
 
 function Home() {
   const [view, setView] = useState(true);
   return (
-    <div>
-  
-      {view ? <MobilePage></MobilePage> : <h1>Desktop</h1>}
-    </div>
+
+    <Layout>
+      <MainCarousel />
+      <CardHome />
+    </Layout>
   );
 }
 export default Home;

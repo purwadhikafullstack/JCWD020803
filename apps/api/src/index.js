@@ -58,6 +58,8 @@ const main = async () => {
     app.use(cors());
     app.use(json());
     app.use('/api', router);
+    app.use('/public', express.static('./public'));
+
 
     globalAPIErrorHandler(app);
     serveWebProjectBuildResult(app);

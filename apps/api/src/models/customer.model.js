@@ -55,6 +55,11 @@ export const init = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      phoneVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+
     },
     {
       sequelize,
@@ -63,4 +68,3 @@ export const init = (sequelize) => {
   );
   return Customer;
 };
-

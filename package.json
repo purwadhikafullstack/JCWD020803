@@ -28,5 +28,14 @@
     "hooks": {
       "pre-commit": "npx lint-staged"
     }
+  },
+  "dependencies": {
+    "gensync": "^1.0.0-beta.2",
+    "jsesc": "^3.0.2",
+    "json5": "^2.2.3",
+    "regenerator-transform": "^0.15.2",
+    "regexpu-core": "^6.0.0",
+    "to-fast-properties": "^4.0.0",
+    "v8flags": "^4.0.1"
   }
 }
