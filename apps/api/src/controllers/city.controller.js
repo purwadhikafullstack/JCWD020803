@@ -58,7 +58,6 @@ export const addCities = async (req, res) => {
     });
     return res.status(200).send({ message: 'membuat baru', result: result });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error.message);
   }
 };

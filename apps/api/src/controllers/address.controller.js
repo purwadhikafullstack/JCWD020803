@@ -9,7 +9,6 @@ export const getAllCity = async (req, res) => {
     const response = await rajaOngkir.get('city');
     res.status(200).send(response?.data);
   } catch (error) {
-    console.error(error);
     res.status(500).send(error.message);
   }
 };
@@ -19,7 +18,6 @@ export const getAllProvince = async (req, res) => {
     const response = await rajaOngkir.get('province');
     res.status(200).send(response?.data);
   } catch (error) {
-    console.log(error);
     res.status(500).send(error.message);
   }
 };
@@ -42,7 +40,6 @@ export const getCityAndProvinceById = async (req, res) => {
     );
     res.status(200).send(response?.data);
   } catch (error) {
-    console.log(error);
     res.status(500).send(error.message);
   }
 };
@@ -58,7 +55,6 @@ export const getAllAddress = async (req, res) => {
     });
     res.status(200).send({ result: response });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error.message);
   }
 };
@@ -104,14 +100,12 @@ export const newAddress = async (req, res) => {
     });
     res.status(200).send('success');
   } catch (error) {
-    console.log(error);
     res.status(500).send(error.message);
   }
 };
 
 export const editAddress = async (req, res) => {
   const data = req?.body;
-  console.log(data);
   try {
     const cityExist = await City.findOne({ where: { city_id: data?.city_id } });
     await Address.update(
@@ -129,7 +123,6 @@ export const editAddress = async (req, res) => {
     res.status(200).send('success updated');
   } catch (error) {
     res.status(500).send(error.message);
-    console.log(error);
   }
 };
 
@@ -197,7 +190,6 @@ export const switchPrimaryAddress = async (req, res) => {
     res.status(200).send({ message: 'Success updated' });
   } catch (error) {
     res.status(500).send(error.message);
-    console.log(error);
   }
 };
 

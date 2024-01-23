@@ -59,7 +59,6 @@ const main = async () => {
     app.use(json());
     app.use('/api', router);
     app.use('/public', express.static(join(__dirname, './public')));
-
     globalAPIErrorHandler(app);
     serveWebProjectBuildResult(app);
 

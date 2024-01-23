@@ -8,14 +8,18 @@ import OtpInput from 'react-otp-input';
 export const VerifyCode = () => {
   const [otp, setOtp] = useState('');
   const verification = useSelector((state) => state.authPhone.value);
-  const { username } = useSelector((state) => state.customer.value);
   const token = localStorage?.getItem('token');
   const navigate = useNavigate();
   const handleVerificationOtp = async () => {
     try {
       const response = await verification.confirm(otp);
       if (response?._tokenResponse?.idToken) {
-        verifyPhoneNumber(token, navigate, username);
+        const result = await verifyPhoneNumber(token);
+        if (result?.status === 200) {
+          alert(result?.data);
+          navigate(`/customer-dashboard/profile`);
+          window.location.reload();
+        }
         localStorage.removeItem('_grecaptcha');
       }
     } catch (error) {
@@ -44,7 +48,7 @@ export const VerifyCode = () => {
         />
         <Button
           color={otp ? 'green' : 'gray'}
-          disabled={!otp}
+          disabled={otp?.length < 6}
           onClick={handleVerificationOtp}
         >
           Verify OTP

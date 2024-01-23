@@ -1,3 +1,4 @@
+import { adminSlice } from './admin.slice'
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { customerSlice } from './customer.slice';
 import { authPhoneFirebase } from './auth.phone.firebase';
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   customerAddress: customerAddressSlice.reducer,
   geolocation: geolocationSlice.reducer,
   provinces: provincesSlice.reducer,
+  admin: adminSlice.reducer,
 });
 
 export const store = configureStore({
