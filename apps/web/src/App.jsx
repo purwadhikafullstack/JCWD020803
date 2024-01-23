@@ -11,22 +11,34 @@ import { CustomerProfile } from './components/customers/user-profile/Index';
 import { VerifyCodePage } from './pages/user-dashboard/profle-detail-page/verification-code/Index';
 import ResetPasswordPage from './pages/forgot-password-page/Index';
 import NewPasswordPage from './pages/forgot-password-page/new-password-page/Index';
+import { ToastContainer } from 'react-toastify';
+import VerifyNewEmailPage from './pages/verify-new-email/Index';
+import { getCustomerAddress } from './utils/address/get.customer.address';
+import { addressData } from './redux/customer.address.slice';
+import EditAddressPage from './pages/user-dashboard/address/edit-address/Index';
+import { getAllProvince } from './utils/address/get.province';
+import { setProvinces } from './redux/province.slice';
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/register-user', element: <RegisterUser /> },
   { path: '/login-user', element: <LoginUser /> },
   { path: '/register-user/verify/:token', element: <CreatePasswordPage /> },
+  { path: '/verification/:token', element: <VerifyNewEmailPage /> },
   {
     element: <UserRequired />,
     children: [
       {
-        path: '/customer-dashboard/:route/:username',
+        path: '/customer-dashboard/:route',
         element: <CustomerProfile />,
       },
       {
         path: '/customer-dashboard/verification-phone/:verificationId',
         element: <VerifyCodePage />,
+      },
+      {
+        path: '/customer-dashboard/address/:id',
+        element: <EditAddressPage />,
       },
     ],
   },
@@ -40,6 +52,14 @@ const router = createBrowserRouter([
 function App() {
   const token = localStorage?.getItem('token');
   const dispatch = useDispatch();
+  const getAddress = async () => {
+    const response = await getCustomerAddress(token);
+    dispatch(addressData(response?.data?.result));
+  };
+  const getProvince = async () => {
+    const response = await getAllProvince();
+    dispatch(setProvinces(response?.data?.rajaongkir?.results));
+  };
 
   useEffect(() => {
     if (token) {
@@ -48,9 +68,13 @@ function App() {
       return;
     }
   }, [token]);
-
+  useEffect(() => {
+    getAddress();
+    getProvince();
+  }, []);
   return (
     <>
+      <ToastContainer />
       <RouterProvider router={router}></RouterProvider>
     </>
   );

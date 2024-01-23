@@ -16,6 +16,7 @@ export const VerifyCode = () => {
       const response = await verification.confirm(otp);
       if (response?._tokenResponse?.idToken) {
         verifyPhoneNumber(token, navigate, username);
+        localStorage.removeItem('_grecaptcha');
       }
     } catch (error) {
       console.log(error);
@@ -35,7 +36,10 @@ export const VerifyCode = () => {
           shouldAutoFocus={true}
           renderSeparator={<span> </span>}
           renderInput={(props) => (
-            <input {...props} className="font-poppins text-[14px] text-black border-b-[1px] border-black mx-auto" />
+            <input
+              {...props}
+              className="font-poppins text-[14px] text-black border-b-[1px] border-black mx-auto"
+            />
           )}
         />
         <Button

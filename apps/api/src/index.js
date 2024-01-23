@@ -50,7 +50,7 @@ const globalAPIErrorHandler = (app) => {
  * Main function of API project
  */
 
- const main = async () => {
+const main = async () => {
   try {
     await DB.initialize();
 
@@ -58,7 +58,7 @@ const globalAPIErrorHandler = (app) => {
     app.use(cors());
     app.use(json());
     app.use('/api', router);
-    app.use('/public', express.static('./public'));
+    app.use('/public', express.static(join(__dirname, './public')));
 
     globalAPIErrorHandler(app);
     serveWebProjectBuildResult(app);
