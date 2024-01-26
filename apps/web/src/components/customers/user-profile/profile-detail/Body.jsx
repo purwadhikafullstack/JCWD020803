@@ -8,6 +8,8 @@ import { ModalUploadImage } from './modalImages';
 import { ModalEmail } from './modalEmail';
 import { ModalPhone } from './modalPhone';
 import { ButtonVerifyPhone } from './buttonVerifyPhone';
+import { useNavigate } from 'react-router-dom';
+
 import { requestVerifyEmail } from '../../../../utils/customer/change.email';
 import { MdVerified } from 'react-icons/md';
 

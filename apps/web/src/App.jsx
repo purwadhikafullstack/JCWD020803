@@ -118,7 +118,7 @@ function App() {
   const token = localStorage?.getItem('token');
   const tokenAdmin = localStorage.getItem('tokenAdmin');
   const dispatch = useDispatch();
-
+  
   const getAddress = async () => {
     if (token) {
       const response = await getCustomerAddress(token);
