@@ -1,5 +1,6 @@
 import City from '../models/city.model';
 import Province from '../models/province.model';
+import { rajaOngkir } from './raja.ongkir';
 
 export const getAllCity = async (req, res) => {
   try {
@@ -57,6 +58,17 @@ export const addCities = async (req, res) => {
       ProvinceId: addProvince?.id,
     });
     return res.status(200).send({ message: 'membuat baru', result: result });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+export const getCityById = async (req, res) => {
+  const { id } = req?.params;
+  console.log(id);
+  try {
+    const response = await rajaOngkir.get(`city?id=${id}`);
+    res.status(200).send(response?.data);
   } catch (error) {
     res.status(500).send(error.message);
   }
