@@ -7,11 +7,12 @@ import {
   Button,
 } from '@material-tailwind/react';
 import React from 'react';
-import { useCart, useFetchProducts } from '../../utils/cart/add.cart';
+import { useFetchProducts } from '../../utils/cart/add.cart';
+import { CartFunction } from '../../utils/cart/cart.function';
 
 export const Product = () => {
   const products = useFetchProducts();
-  const { addToCart } = useCart();
+  const { addToCart } = CartFunction();
 
   return (
     <>

@@ -12,9 +12,19 @@ import { CustomerProfile } from './components/customers/user-profile/Index';
 import { VerifyCodePage } from './pages/user-dashboard/profle-detail-page/verification-code/Index';
 import ResetPasswordPage from './pages/forgot-password-page/Index';
 import NewPasswordPage from './pages/forgot-password-page/new-password-page/Index';
+import { CheckoutPage } from './pages/checkout.page/Checkout';
+import { Cart } from './pages/cart.page/Cart';
+import { Product } from './pages/product/product';
+import { OrderHistory } from './components/order-history/order-history';
+import { CancelOrder } from './components/cancel-order/cancel-order';
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
+  { path: '/cancel', element: <CancelOrder /> },
+  { path: '/order-history', element: <OrderHistory /> },
+  { path: '/product', element: <Product /> },
+  { path: '/cart', element: <Cart /> },
+  { path: '/cart/checkout-page', element: <CheckoutPage /> },
   { path: '/register-user', element: <RegisterUser /> },
   { path: '/login-user', element: <LoginUser /> },
   { path: '/register-user/verify/:token', element: <CreatePasswordPage /> },

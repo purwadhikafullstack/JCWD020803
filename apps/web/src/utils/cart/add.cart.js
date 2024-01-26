@@ -19,17 +19,3 @@ export const useFetchProducts = () => {
 
   return products;
 };
-
-export const useCart = () => {
-  const addToCart = async (productId) => {
-    try {
-      await axios.post('http://localhost:8000/api/cart/add-to-cart', {
-        productId: productId,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return { addToCart };
-};

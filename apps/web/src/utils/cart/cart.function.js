@@ -4,12 +4,36 @@ import { useEffect, useState } from 'react';
 export const CartFunction = () => {
   const [cartData, setCartData] = useState([]);
 
+  const token = localStorage.getItem('token');
+
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/cart/active');
+      const response = await axios.get(
+        'http://localhost:8000/api/cart/active',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setCartData(response.data.data);
     } catch (err) {
       console.error('Error in fetchData:', err);
+    }
+  };
+
+  const addToCart = async (productId) => {
+    try {
+      const userToken = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:8000/api/cart/add-to-cart',
+        {
+          productId: productId,
+        },
+        {
+          headers: { Authorization: `Bearer ${userToken}` },
+        },
+      );
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -17,6 +41,11 @@ export const CartFunction = () => {
     try {
       await axios.delete(
         `http://localhost:8000/api/cart/delete-cart-detail/${cartDetailId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       const updatedCartData = cartData.filter(
         (item) => item.Cart_detail.id !== cartDetailId,
@@ -31,7 +60,11 @@ export const CartFunction = () => {
 
   const deleteAllItems = async () => {
     try {
-      await axios.delete('http://localhost:8000/api/cart/delete-all');
+      await axios.delete('http://localhost:8000/api/cart/delete-all', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       localStorage.removeItem('cartData');
       fetchData();
     } catch (err) {
@@ -47,6 +80,11 @@ export const CartFunction = () => {
           action,
           quantity: newQuantity,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       fetchData();
     } catch (err) {
@@ -60,6 +98,7 @@ export const CartFunction = () => {
 
   return {
     cartData,
+    addToCart,
     fetchData,
     handleDeleteItem,
     deleteAllItems,

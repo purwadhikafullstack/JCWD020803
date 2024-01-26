@@ -2,3 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.shadow-inner-more-depth {
+  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.1);
+}

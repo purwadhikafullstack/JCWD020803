@@ -1,8 +1,9 @@
 import React from 'react';
-import { Navbar } from '../../components/landing-page/mobile-view/navbar/Navbar';
 import { ProductListCheckout } from '../../components/cart/product-list-checkout';
 import { Coupon } from '../../components/cart/coupon';
 import { Struk } from '../../components/cart/struk';
+import { Navbar } from '../../components/navbar/Index';
+import { Footer } from '../../components/footer/Index';
 
 export const Cart = () => {
   return (
@@ -10,7 +11,7 @@ export const Cart = () => {
       <nav>
         <Navbar />
       </nav>
-      <div className="w-[86vw] m-auto">
+      <div className="w-[90vw] m-auto">
         <header className="font-semibold text-2xl mt-10 xl:mt-[10vh]">
           Shopping Cart
         </header>
@@ -20,6 +21,7 @@ export const Cart = () => {
           <Struk fetchCartData={() => fetchData()} />
         </section>
       </div>
+      <Footer />
     </>
   );
 };

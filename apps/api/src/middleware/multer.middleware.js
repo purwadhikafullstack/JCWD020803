@@ -1,5 +1,6 @@
 import multer from 'multer';
 import path from 'path';
+
 const customerProfileUpload = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -17,17 +18,25 @@ const customerProfileUpload = () => {
       );
     },
   });
+
   const fileFilter = (req, file, cb) => {
-    const exFilter = ['jpg', 'jpeg', 'png'];
-    const checkExt = exFilter.includes(
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+    const checkExt = allowedExtensions.includes(
       file.mimetype.split('/')[1].toLowerCase(),
     );
+
     if (checkExt) {
       cb(null, true);
     } else {
-      cb(new error('File format not supported'));
+      cb(new Error('File format not supported'));
     }
   };
-  return multer({ storage, fileFilter });
+
+  const limits = {
+    fileSize: 1024 * 1024,
+  };
+
+  return multer({ storage, fileFilter, limits });
 };
+
 export { customerProfileUpload };

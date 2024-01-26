@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CheckoutList } from '../../components/checkout/checkout-list';
-import { Navbar } from '../../components/landing-page/mobile-view/navbar/Navbar';
+import { Navbar } from '../../components/navbar/Index';
+import { Footer } from '../../components/footer/Index';
 
 export const CheckoutPage = () => {
   const [cartData, setCartData] = useState([]);
@@ -13,9 +14,14 @@ export const CheckoutPage = () => {
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <CheckoutList cartData={cartData} />
-    </div>
+    <>
+      <section>
+        <Navbar />
+        <CheckoutList cartData={cartData} />
+        <div className="mt-8">
+          <Footer />
+        </div>
+      </section>
+    </>
   );
 };

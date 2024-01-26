@@ -7,9 +7,11 @@ import {
   getAllProductsInCart,
   updateCart,
 } from '../controllers/cart.controller';
+import { verifyToken } from '../middleware/customer.auth.middleware';
 
 const cartRouter = Router();
 
+cartRouter.use(verifyToken);
 cartRouter.get('/', getAllProductsInCart);
 cartRouter.get('/active', getActive);
 cartRouter.post('/add-to-cart', addToCart);

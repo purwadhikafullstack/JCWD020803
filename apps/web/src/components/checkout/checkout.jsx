@@ -1,39 +1,42 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { CartFunction } from '../../utils/cart/cart.function';
 import { shipmentFunction } from '../../utils/transaction/shipment.function';
 import { AiOutlineClose } from 'react-icons/ai';
 
 export const Checkout = () => {
-  const { shipmentData, postData } = shipmentFunction();
+  const { cartData } = CartFunction();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const { postData } = shipmentFunction(selectedPaymentMethod);
 
-  useEffect(() => {}, [shipmentData]);
+  const totalHargaProduk = cartData.reduce(
+    (total, item) => total + item.Cart_detail.Product.price,
+    0,
+  );
 
-  const calculateTotalQuantity = (products) => {
-    return products.reduce((total, product) => total + product.quantity, 0);
-  };
   return (
     <>
       <div className="w-full xl:w-[30vw] bg-white px-4 py-7 xl:rounded-xl xl:ml-5 h-fit space-y-5">
         <p className="font-semibold">Ringkasan belanja</p>
-        {shipmentData.map((item) => (
-          <section className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <p>
-                Total Harga ({calculateTotalQuantity(item.Transaction_products)}{' '}
-                Produk)
-              </p>
-              <p>Rp.{item.total}</p>
-            </div>
-            <div className="flex justify-between h-8 font-semibold items-end xl:border-t border-gray-400">
-              <p>Total Belanja</p>
-              <p>-</p>
-            </div>
-          </section>
-        ))}
+        <section className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <p>Total Harga Produk</p>
+            <p>Rp.{totalHargaProduk}</p>
+          </div>
+          <div className="flex justify-between h-8 font-semibold items-end xl:border-t border-gray-400">
+            <p>Total Belanja</p>
+            <p>-</p>
+          </div>
+        </section>
         <button className="font-semibold text-gray-800 border w-full border-gray-400 py-3 rounded-lg">
           Makin hemat pakai promo
         </button>
         <button
-          onClick={() => document.getElementById('my_modal_1').showModal()}
+          onClick={() => {
+            // Assuming `paymentMethodId` is a string or a number
+            const paymentMethodId = '2'; // Replace this with your logic to get the payment method ID
+            document.getElementById('my_modal_1').showModal();
+            setSelectedPaymentMethod(String(paymentMethodId)); // Convert to string explicitly
+          }}
           className="bg-main-red w-full py-3 rounded-md text-white font-bold"
         >
           Pilih Pembayaran
@@ -53,6 +56,9 @@ export const Checkout = () => {
             <div role="tablist" className="tabs tabs-bordered">
               <input
                 type="radio"
+                value="1"
+                checked={selectedPaymentMethod === '1'}
+                onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                 name="my_tabs_1"
                 role="tab"
                 className="tab"
@@ -64,11 +70,13 @@ export const Checkout = () => {
 
               <input
                 type="radio"
+                value="2"
+                checked={selectedPaymentMethod === '2'}
+                onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                 name="my_tabs_1"
                 role="tab"
                 className="tab"
                 aria-label="Manual"
-                checked
               />
               <div role="tabpanel" className="tab-content p-10">
                 <p>
@@ -80,7 +88,7 @@ export const Checkout = () => {
             <div className="flex justify-between">
               <div className="flex flex-col text-sm">
                 <p>Total Tagihan</p>
-                <p>Rp 26.000</p>
+                <p>{totalHargaProduk}</p>
               </div>
               <button
                 onClick={postData}

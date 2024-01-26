@@ -2,10 +2,17 @@ import Branch_product from '../models/branch_product.model';
 import Cart from '../models/cart.model';
 import CartDetail from '../models/cart_detail.model';
 import Product from '../models/product.model';
+import Customer from '../models/customer.model';
 
 export const getAllProductsInCart = async (req, res) => {
   try {
-    const response = await Cart.findAll();
+    const customerId = req.customer.id;
+
+    if (!customerId) {
+      return res.status(400).send({ message: 'Customer ID is required' });
+    }
+
+    const response = await Cart.findAll({ where: { CustomerId: customerId } });
 
     res.status(200).send(response);
   } catch (err) {
@@ -16,8 +23,14 @@ export const getAllProductsInCart = async (req, res) => {
 
 export const getActive = async (req, res) => {
   try {
+    const customerId = req.customer.id;
+
+    if (!customerId) {
+      return res.status(400).send({ message: 'Customer ID is required' });
+    }
+
     const response = await Cart.findAll({
-      where: { isActive: true },
+      where: { isActive: true, CustomerId: customerId },
       include: [
         {
           model: CartDetail,
@@ -41,6 +54,27 @@ export const getActive = async (req, res) => {
 export const addToCart = async (req, res) => {
   try {
     const { productId } = req.body;
+
+    const customer = req.customer;
+
+    if (!customer) {
+      return res.status(400).send('User must be registered');
+    }
+
+    const customerData = await Customer.findByPk(customer.id);
+
+    if (!customerData || !customerData.isVerified) {
+      return res.status(400).send('User must be verified');
+    }
+
+    let cart = await Cart.findOne({
+      where: { isActive: true, CustomerId: customerData.id },
+    });
+
+    if (!cart) {
+      cart = await Cart.create({ isActive: true, CustomerId: customerData.id });
+    }
+
     const product = await Product.findByPk(productId, {
       include: [{ model: Branch_product }],
     });
@@ -54,14 +88,6 @@ export const addToCart = async (req, res) => {
       product.Branch_products[0].quantity <= 0
     ) {
       return res.status(404).send('Product is out of stock');
-    }
-
-    let cart = await Cart.findOne({
-      where: { isActive: true },
-    });
-
-    if (!cart) {
-      cart = await Cart.create({ isActive: true });
     }
 
     let cartDetail = await CartDetail.findOne({
@@ -121,11 +147,16 @@ export const updateCart = async (req, res) => {
 
 export const deleteCartDetail = async (req, res) => {
   try {
+    const customerId = req.customer.id;
+
+    if (!customerId) {
+      return res.status(400).send({ message: 'Customer ID is required' });
+    }
+
     const cartDetailId = req.params.cartDetailId;
-    console.log('Deleting cart item with ID:', cartDetailId);
 
     const cartDetail = await CartDetail.findByPk(cartDetailId, {
-      include: [Cart],
+      include: [{ association: 'Cart', where: { CustomerId: customerId } }],
     });
 
     if (!cartDetail) {
@@ -154,8 +185,19 @@ export const deleteCartDetail = async (req, res) => {
 
 export const deleteAllCarts = async (req, res) => {
   try {
-    await CartDetail.destroy({ where: {} });
-    await Cart.destroy({ where: {} });
+    const customerId = req.customer.id;
+
+    if (!customerId) {
+      return res.status(400).send({ message: 'Customer ID is required' });
+    }
+    const carts = await Cart.findAll({ where: { CustomerId: customerId } });
+
+    const cartIds = carts.map((cart) => cart.id);
+
+    await Cart.destroy({ where: { CustomerId: customerId } });
+    await CartDetail.destroy({
+      where: { CartId: cartIds },
+    });
 
     res.status(200).send('All carts deleted');
   } catch (err) {

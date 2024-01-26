@@ -1,16 +1,31 @@
+// transaction.router.js
 import { Router } from 'express';
+import { customerProfileUpload } from '../middleware/multer.middleware';
 import {
   addToCheckout,
-  closePage,
+  cancelOrder,
   deleteAllTransaction,
   getAll,
+  getByDate,
+  getById,
+  uploadPaymentProof,
 } from '../controllers/transaction.controller';
+import { verifyToken } from '../middleware/customer.auth.middleware';
 
 const transactionRouter = Router();
+const upload = customerProfileUpload();
 
-transactionRouter.get('/', getAll);
+transactionRouter.use(verifyToken);
 transactionRouter.post('/', addToCheckout);
-// transactionRouter.post('/close-page', closePage);
+transactionRouter.get('/', getAll);
+transactionRouter.patch(
+  '/upload-proof/:transactionId',
+  upload.single('paymentProof'),
+  uploadPaymentProof,
+);
 transactionRouter.delete('/', deleteAllTransaction);
+transactionRouter.get('/:transactionId', getById);
+transactionRouter.get('/date/:date', getByDate);
+transactionRouter.patch('/cancel/:transactionId', cancelOrder);
 
 export { transactionRouter };

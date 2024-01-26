@@ -2,7 +2,7 @@ import { Checkout } from './checkout';
 
 export const CheckoutList = ({ cartData }) => {
   return (
-    <div className="pt-6 bg-[#F0F3F7] h-auto">
+    <div className="pt-6 bg-[#F0F3F7] h-auto pb-10">
       <header className=" w-[100vw] md:w-[80vw] xl:w-[92vw] m-auto xl:flex space-y-2 xl:space-y-[9.5vh]">
         <div className="md:w-[80vw] xl:w-[61vw] ">
           <div className="hidden xl:block text-3xl font-bold text-black">
@@ -17,7 +17,8 @@ export const CheckoutList = ({ cartData }) => {
             </p>
             <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
               <p>
-                Kp.Karangcagak Desa.Cidahu, Kec.Pagaden Barat, Kabupaten Subang,41252 
+                Kp.Karangcagak Desa.Cidahu, Kec.Pagaden Barat, Kabupaten
+                Subang,41252
               </p>
             </div>
             <button className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold">
@@ -26,10 +27,7 @@ export const CheckoutList = ({ cartData }) => {
           </section>
           {cartData.map((item) => (
             <section>
-              <div
-                className="flex bg-white pl-6 mt-2 xl:mt-4 py-10 xl:rounded-xl shadow-lg"
-                // key={product.id}
-              >
+              <div className="flex bg-white pl-6 mt-2 xl:mt-4 py-10 xl:rounded-xl shadow-lg">
                 <div className="flex w-full">
                   <div className="w-[17vw] h-[8vh] md:w-[12vw] md:h-[10vh] xl:w-[6.5vw] xl:h-[13vh]">
                     <img
@@ -38,10 +36,7 @@ export const CheckoutList = ({ cartData }) => {
                       className="w-full h-full object-cover rounded-md"
                     />
                   </div>
-                  <div
-                    className="relative flex flex-col w-fit h-[14vh] xl:w-[84%] ml-4 space-y-2"
-                    // key={product.id}
-                  >
+                  <div className="relative flex flex-col w-fit h-[14vh] xl:w-[84%] ml-4 space-y-2">
                     <div className=" xl:flex justify-between">
                       <p className="text-gray-900">
                         {item.Cart_detail.Product.product_name}

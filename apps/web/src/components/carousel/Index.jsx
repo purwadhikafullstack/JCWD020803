@@ -1,8 +1,8 @@
 import { Carousel, Typography, Button } from '@material-tailwind/react';
 import imageCarousel_1 from '../../assets/carousel_1.jpg';
-import imageCarousel_2 from '../../assets/carousel_2.jpg';
 import imageCarousel_3 from '../../assets/carousel_3.png';
 import imageCarousel_4 from '../../assets/carousel_4.jpg';
+import kratindeng from '../../assets/kratindeng.jpg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
@@ -16,7 +16,7 @@ export const MainCarousel = () => {
   });
   const items = [
     {
-      img: imageCarousel_1,
+      img: kratindeng,
       alt: 'Image 1',
       title: 'Discount Up to 50% all items',
       subTitle:
