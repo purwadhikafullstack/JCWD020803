@@ -58,9 +58,7 @@ const main = async () => {
     app.use(cors());
     app.use(json());
     app.use('/api', router);
-    app.use('/public', express.static('./public'));
-
-
+    app.use('/public', express.static(join(__dirname, './public')));
     globalAPIErrorHandler(app);
     serveWebProjectBuildResult(app);
 

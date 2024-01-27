@@ -2,29 +2,42 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/home/Home';
 import RegisterUser from './pages/register-user/Register';
 import LoginUser from './pages/login-user/LoginPage';
-
 import { CreatePasswordPage } from './pages/register-user/create-password/Index';
 import UserRequired from './pages/required/user.required';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import { keepLoginCustomer } from './utils/customer/keep.login.customer';
 import { CustomerProfile } from './components/customers/user-profile/Index';
 import { VerifyCodePage } from './pages/user-dashboard/profle-detail-page/verification-code/Index';
 import ResetPasswordPage from './pages/forgot-password-page/Index';
 import NewPasswordPage from './pages/forgot-password-page/new-password-page/Index';
-import { CheckoutPage } from './pages/checkout.page/Checkout';
-import { Cart } from './pages/cart.page/Cart';
-import { Product } from './pages/product/product';
-import { OrderHistory } from './components/order-history/order-history';
-import { CancelOrder } from './components/cancel-order/cancel-order';
-
+import Login from './pages/admin/LoginAdmin';
+import { Overview } from './components/admin/dashboard/overview';
+import { RegisterAdmin } from './components/admin/dashboard/admin-management/registeradminmodal';
+import { AdminManagement } from './pages/admin/AdminManagement';
+import AdminRequired from './components/required/admin.require';
+import { keepLoginAdmin } from './utils/admin/keeplogin.admin';
+import { AdminProfile } from './components/admin/admin-profile/Index';
+import { ManageProduct } from './pages/admin/ProductManagement';
+import { AdminProfilePage } from './pages/admin/Profile';
+import { VerifyAdmin } from './pages/admin/verify/Index';
+import { ResetPassword } from './pages/admin/reset-password/Index';
+import { ProductCatalogue } from './components/admin/dashboard/product/product-catalogue/Index';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import VerifyNewEmailPage from './pages/verify-new-email/Index';
+import { getCustomerAddress } from './utils/address/get.customer.address';
+import { addressData } from './redux/customer.address.slice';
+import EditAddressPage from './pages/user-dashboard/address/edit-address/Index';
+import { getAllProvince } from './utils/address/get.province';
+import { setProvinces } from './redux/province.slice';
+import { ToastContainer } from 'react-toastify';
+import { setData } from './redux/customer.slice';
+import { AdminTable } from './components/admin/dashboard/admin-management/admintable';
+import BranchPage from './pages/admin/branch-page/Index';
+import NewBranchPage from './pages/admin/branch-page/new-branch/Index';
+import EditBranchPage from './pages/admin/branch-page/edit-branch/Index';
+import SuperAdminRequired from './components/required/super.admin.required';
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
-  { path: '/cancel', element: <CancelOrder /> },
-  { path: '/order-history', element: <OrderHistory /> },
-  { path: '/product', element: <Product /> },
-  { path: '/cart', element: <Cart /> },
-  { path: '/cart/checkout-page', element: <CheckoutPage /> },
   { path: '/register-user', element: <RegisterUser /> },
   { path: '/login-user', element: <LoginUser /> },
   { path: '/register-user/verify/:token', element: <CreatePasswordPage /> },
@@ -32,12 +45,20 @@ const router = createBrowserRouter([
     element: <UserRequired />,
     children: [
       {
-        path: '/customer-dashboard/:route/:username',
+        path: '/customer-dashboard/:route/',
         element: <CustomerProfile />,
       },
       {
         path: '/customer-dashboard/verification-phone/:verificationId',
         element: <VerifyCodePage />,
+      },
+      {
+        path: '/customer-dashboard/address/:id',
+        element: <EditAddressPage />,
+      },
+      {
+        path: '/verification/:token',
+        element: <VerifyNewEmailPage />,
       },
     ],
   },
@@ -46,22 +67,102 @@ const router = createBrowserRouter([
     path: '/forgot-password/new-password/:token',
     element: <NewPasswordPage />,
   },
+
+  //admin
+  { path: '/manage-product', element: <ManageProduct></ManageProduct> },
+  {
+    path: '/product-catalogue',
+    element: <ProductCatalogue></ProductCatalogue>,
+  },
+  {
+    path: '/admin/reset-password/:tokenAdmin',
+    element: <ResetPassword></ResetPassword>,
+  },
+  {
+    path: '/admin/set-password/:tokenAdmin',
+    element: <VerifyAdmin></VerifyAdmin>,
+  },
+  { path: '/login-admin', element: <Login></Login> },
+  { path: '/overview', element: <Overview></Overview> },
+  { path: '/register-admin', element: <RegisterAdmin></RegisterAdmin> },
+  { path: '/admin/profile', element: <AdminProfilePage></AdminProfilePage> },
+  {
+    element: <AdminRequired />,
+    children: [
+      {
+        path: '/admin-management',
+        element: <AdminManagement />,
+      },
+    ],
+  },
+  {
+    element: <SuperAdminRequired />,
+    children: [
+      {
+        path: '/dashboard/branch',
+        element: <BranchPage />,
+      },
+      {
+        path: '/branch/new-branch',
+        element: <NewBranchPage />,
+      },
+      {
+        path: '/branch/edit/:id',
+        element: <EditBranchPage />,
+      },
+    ],
+  },
 ]);
 
 function App() {
   const token = localStorage?.getItem('token');
+  const tokenAdmin = localStorage.getItem('tokenAdmin');
   const dispatch = useDispatch();
+  
+  const getAddress = async () => {
+    if (token) {
+      const response = await getCustomerAddress(token);
+      dispatch(addressData(response?.data?.result));
+    }
+  };
+  const getProvince = async () => {
+    if (token) {
+      const response = await getAllProvince();
+      if (response?.data?.rajaongkir?.results) {
+        console.log(response);
+        dispatch(setProvinces(response?.data?.rajaongkir?.results));
+      } else {
+        dispatch(setProvinces(response?.data));
+      }
+    }
+  };
+  const keepLoginCustomers = async () => {
+    if (token !== null) {
+      const response = await keepLoginCustomer(token);
+      dispatch(setData(response?.data?.result));
+    }
+  };
 
   useEffect(() => {
-    if (token) {
-      keepLoginCustomer(dispatch, token);
+    keepLoginCustomers();
+  }, [token]);
+
+  useEffect(() => {
+    if (tokenAdmin) {
+      keepLoginAdmin(dispatch, tokenAdmin);
     } else {
       return;
     }
-  }, [token]);
+  }, [tokenAdmin]);
+
+  useEffect(() => {
+    getAddress();
+    getProvince();
+  }, []);
 
   return (
     <>
+      <ToastContainer />
       <RouterProvider router={router}></RouterProvider>
     </>
   );

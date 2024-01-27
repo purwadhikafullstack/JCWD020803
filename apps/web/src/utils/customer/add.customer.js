@@ -10,6 +10,15 @@ export const addCustomer = async (data) => {
   }
 };
 
+export const socialRegister = async (data) => {
+  try {
+    const response = await api.post(`customer/social-register`, data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const validateReferral = async (referral_code) => {
   try {
     const response = await api.get(
@@ -34,9 +43,6 @@ export const registSchema = Yup.object({
   first_name: Yup.string()
     .matches(/^[a-zA-Z\s]+$/, 'First name must contain only letters')
     .required('First name is required'),
-  last_name: Yup.string()
-    .matches(/^[a-zA-Z\s]+$/, 'Last name must contain only letters')
-    .required('Last name is required'),
   username: Yup.string().required('Username is required'),
   email: Yup.string()
     .email('Invalid email address')

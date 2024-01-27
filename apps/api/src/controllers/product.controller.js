@@ -1,60 +1,119 @@
-import Product from '../models/product.model';
-import Branch_product from '../models/branch_product.model';
+import Product from '../models/product.model'
+import Category from '../models/category.model';
 
-export const getAllProduct = async () => {
-  try {
-    const response = await Product.findAll({
-      include: [{ model: Branch_product }],
-    });
-    return response;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
+export const addProduct = async (req, res) => {
+    try {
+      const { product_name, price, descriptions } = req.body;
+      console.log(req.body);
 
-export const addProduct = async (productData) => {
-  try {
-    const existingProduct = await Product.findOne({
-      where: { product_name: productData.product_name },
-    });
-
-    if (existingProduct) {
-      await Branch_product.increment('quantity', {
-        by: 1,
-        where: { ProductId: existingProduct.id },
-      });
-      return existingProduct;
-    } else {
-      const newProduct = await Product.create({
-        product_name: productData.product_name,
-        descriptions: productData.descriptions,
-        price: productData.price,
+      //check if product already exist
+      const findProduct = await Product.findOne({
+        where: {
+          product_name: product_name
+        },
       });
 
-      await Branch_product.create({ quantity: 1, ProductId: newProduct.id });
-
-      return newProduct;
+      //if product isn't already exist
+      if (findProduct == null) { 
+        await Product.create({
+            product_name: product_name,
+            price: price,
+            descriptions: descriptions,
+        })
+      } else {
+        return res.status(400).send({ message: "Product already exist" });
+      }
+      res.status(200).send({ message: "Product added" });
+    } catch (error) {
+      console.log("This is the error", error);
+       return error;
     }
-  } catch (err) {
-    console.log(err);
-    return err;
   }
-};
+
+export const getAllProducts = async (req, res) => {
+  try {
+      const { page, limit = 5, sortBy = 'createdAt', sortOrder = 'asc' } = req.query;
+      const offset = (page - 1) * limit;
+
+      const allProducts = await Product.findAll({
+          include: {
+              model: Category,
+              attributes: ['name']
+          },
+          order: [[sortBy, sortOrder.toUpperCase()]],
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+      })
+
+      return res.status(200).send({ result: allProducts })
+  } catch (error) {
+      console.error(error)
+      return res.status(500).send({ message: error.message })
+  }
+}
+
+export const editProduct = async (req, res) => {
+  try {
+      const { id, name, description, price, category_id } = req.body;
+
+      const updateFields = {
+          ...(name && { name }),
+          ...(description && { description }),
+          ...(price && { price }),
+      };
+
+      updateFields.CategoryId = category_id
+
+      const findProduct = await Product.findOne({
+          where: {
+              id: id
+          }
+      })
+
+      if (!findProduct) {
+          return res.status(404).send({ message: "Product not found" })
+      }
+
+      await Product.update(
+          updateFields,
+          {
+              where: {
+                  id: id
+              }
+          }
+      )
+      return res.status(200).send({ message: "Product updated" })
+  } catch (error) {
+      console.error(error)
+      return res.status(500).send({ message: error.message })
+  }
+}
 
 export const deleteProduct = async (req, res) => {
-  const { productId } = req;
-  try {
-    const result = await Product.destroy({
-      where: { id: productId },
-    });
-    if (result === 1) {
-      res.status(200).send('Delete Success');
-    } else {
-      res.status(404).send('Product not found');
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(400).send({ message: err.message });
+  try{
+      const id = req.params.id
+      const findProduct = await Product.findOne({
+          where: {
+              id: id
+          }
+      })
+      if (!findProduct) {
+          return res.status(404).send({ message: "Product not found" })
+      }
+      await Product.update(
+          {
+              isDeleted: true,
+              isDisabled: true
+          },
+          {
+              where: {
+                  id: id
+              }
+          }
+      )
+      return res.status(200).send({ message: "Product deleted" })
+  }catch(error){
+      console.error(error)
+      return res.status(500).send({ message: error.message })
   }
-};
+}

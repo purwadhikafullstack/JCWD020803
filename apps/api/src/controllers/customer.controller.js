@@ -77,7 +77,7 @@ export const createCustomer = async (req, res) => {
           { email: { [Op.eq]: email } },
           { username: { [Op.eq]: username } },
         ],
-      },
+      },  
     });
     if (customerExist) {
       return res.status(400).send('Email or username already exist');
@@ -429,14 +429,12 @@ export const changeEmail = async (req, res) => {
     );
     res.status(200).send('Email has been changes');
   } catch (error) {
-    console.log(error);
     res.status(500).send(error.message);
   }
 };
 
 export const verifyNewEmail = async (req, res) => {
   const { id } = req.customer;
-  console.log(req);
   try {
     const user = await Customer.findOne({ where: { id: id } });
     let payload = { id: id };

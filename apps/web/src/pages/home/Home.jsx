@@ -6,7 +6,6 @@ import { CardHome } from '../../components/card-home/Index';
 function Home() {
   const [view, setView] = useState(true);
   return (
-
     <Layout>
       <MainCarousel />
       <CardHome />

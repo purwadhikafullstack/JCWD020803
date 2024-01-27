@@ -38,6 +38,7 @@
     "regenerator-transform": "^0.15.2",
     "regexpu-core": "^6.0.0",
     "to-fast-properties": "^4.0.0",
-    "v8flags": "^4.0.1"
+    "v8flags": "^4.0.1",
+    "vite": "^5.0.12"
   }
 }
