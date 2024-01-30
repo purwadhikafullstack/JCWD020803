@@ -21,7 +21,7 @@ import { AdminProfilePage } from './pages/admin/Profile';
 import { VerifyAdmin } from './pages/admin/verify/Index';
 import { ResetPassword } from './pages/admin/reset-password/Index';
 import { ProductCatalogue } from './components/admin/dashboard/product/product-catalogue/Index';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import VerifyNewEmailPage from './pages/verify-new-email/Index';
 import { getCustomerAddress } from './utils/address/get.customer.address';
@@ -36,6 +36,12 @@ import BranchPage from './pages/admin/branch-page/Index';
 import NewBranchPage from './pages/admin/branch-page/new-branch/Index';
 import EditBranchPage from './pages/admin/branch-page/edit-branch/Index';
 import SuperAdminRequired from './components/required/super.admin.required';
+import { positionData } from './redux/position.slice';
+import { deliveryData } from './redux/delivery.slice';
+import { getHeadBranch } from './utils/branch/get.head.branch';
+import 'react-toastify/dist/ReactToastify.css';
+import ReverificationPage from './pages/reverification-page';
+
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/register-user', element: <RegisterUser /> },
@@ -66,6 +72,10 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password/new-password/:token',
     element: <NewPasswordPage />,
+  },
+  {
+    path: '/reverification',
+    element: <ReverificationPage />,
   },
 
   //admin
@@ -118,10 +128,20 @@ function App() {
   const token = localStorage?.getItem('token');
   const tokenAdmin = localStorage.getItem('tokenAdmin');
   const dispatch = useDispatch();
-
+  const deliveried = useSelector((state) => state.delivery.value);
+  console.log(deliveried);
   const getAddress = async () => {
     if (token) {
       const response = await getCustomerAddress(token);
+      console.log(response);
+      if (response?.data?.result?.length > 1) {
+        const deliveryAddress = response?.data?.result?.filter(
+          (delivery) => delivery?.isDeliveried === true,
+        );
+        dispatch(deliveryData(deliveryAddress));
+      } else {
+        dispatch(deliveryData(response?.data?.result));
+      }
       dispatch(addressData(response?.data?.result));
     }
   };
@@ -129,7 +149,6 @@ function App() {
     if (token) {
       const response = await getAllProvince();
       if (response?.data?.rajaongkir?.results) {
-        console.log(response);
         dispatch(setProvinces(response?.data?.rajaongkir?.results));
       } else {
         dispatch(setProvinces(response?.data));
@@ -140,6 +159,20 @@ function App() {
     if (token !== null) {
       const response = await keepLoginCustomer(token);
       dispatch(setData(response?.data?.result));
+    }
+  };
+  const getStoreLocation = async () => {
+    if (token) {
+      if (deliveried) {
+        deliveried?.map((deliveried) => {
+          dispatch(positionData(deliveried));
+          console.log(deliveried);
+        });
+      }
+    } else if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        dispatch(positionData(position?.coords));
+      });
     }
   };
 
@@ -159,6 +192,9 @@ function App() {
     getAddress();
     getProvince();
   }, []);
+  useEffect(() => {
+    getStoreLocation();
+  }, [deliveried]);
 
   return (
     <>

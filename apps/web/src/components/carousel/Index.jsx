@@ -1,22 +1,14 @@
-import {
-  Carousel,
-  Typography,
-  IconButton,
-  Drawer,
-} from '@material-tailwind/react';
+import { Carousel, IconButton } from '@material-tailwind/react';
 import imageCarousel_1 from '../../assets/carousel_1.jpg';
 import imageCarousel_5 from '../../assets/carousel_5.jpg';
-import imageCarousel_3 from '../../assets/carousel_3.jpg';
 import imageCarousel_4 from '../../assets/carousel_4.jpg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
 import { CgChevronLeft, CgChevronRight } from 'react-icons/cg';
 import { useSelector } from 'react-redux';
-import { CgPin, CgChevronDown } from 'react-icons/cg';
-import { FaChevronCircleRight } from 'react-icons/fa';
-import { FcCheckmark } from 'react-icons/fc';
-import { DrawerAddress } from './Drawer';
+import { StoreLocation } from './storeLocation';
+import { DeliverLocation } from './deliverLocation';
 
 export const MainCarousel = () => {
   useEffect(() => {
@@ -34,14 +26,6 @@ export const MainCarousel = () => {
         "Great News! Enjoy a 50% discount on all products. Don't miss out on these incredible savings. Shop now and indulge in the best deals!",
       button: 'Shop Now',
     },
-    // {
-    //   img: imageCarousel_3,
-    //   alt: 'Image 2',
-    //   title: 'Discount 20%',
-    //   subTitle:
-    //     'Enjoy a 20% discount on all pet foods! Treat your furry friends to quality meals at a great price.',
-    //   button: 'Shop Now',
-    // },
     {
       img: imageCarousel_4,
       alt: 'Image 4',
@@ -83,10 +67,11 @@ export const MainCarousel = () => {
   useEffect(() => {
     handleDeliveried();
   }, [address]);
+  console.log(deliveried)
   return (
     <div className="px-3 laptop:pr-[6%] laptop:pl-[3%] flex flex-col-reverse justify-center gap-2">
       <Carousel
-        className="h-[200px] rounded-lg laptop:h-[270px] laptop:my-[3%] laptop:w-[100%] bg-main-red laptop:rounded-lg"
+        className="h-[200px] rounded-lg laptop:h-[270px] laptop:my-[1%] laptop:w-[100%] bg-main-red laptop:rounded-lg"
         autoplay
         loop
         autoplayDelay={5000}
@@ -137,31 +122,22 @@ export const MainCarousel = () => {
           </div>
         ))}
       </Carousel>
-      {deliveried?.length > 0 ? (
-        <>
-          <div
-            onClick={openDrawer}
-            className="laptop:hidden cursor-pointer flex items-center gap-2 py-3 w-[60%]"
-          >
-            <CgPin className="animate-bounce text-blue-700" size={15} />
-            {deliveried?.map((primaryAddress) => (
-              <h1
-                className="text-gray-600 font-poppins text-[14px]"
-                key={primaryAddress?.id}
-              >
-                Deliver to{' '}
-                <span className="font-poppins font-bold text-black">{`${primaryAddress?.label_address} ${primaryAddress?.received_name}`}</span>
-              </h1>
-            ))}
-            <CgChevronDown />
-          </div>
-          <DrawerAddress
-            open={open}
+      {deliveried ? (
+        <div className="flex justify-between items-center">
+          <DeliverLocation
             closeDrawer={closeDrawer}
+            openDrawer={openDrawer}
             deliveried={deliveried}
+            open={open}
           />
-        </>
-      ) : null}
+          <span className="w-0.5 ml-1 h-10 bg-gray-400 laptop:hidden"></span>
+          <StoreLocation deliveried={deliveried} />
+        </div>
+      ) : (
+        <div>
+          <StoreLocation deliveried={deliveried} />
+        </div>
+      )}
     </div>
   );
 };

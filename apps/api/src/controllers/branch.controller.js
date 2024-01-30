@@ -1,5 +1,7 @@
 import Branch from '../models/branch.model';
 import Admin from '../models/admin.model';
+import Customer from '../models/customer.model';
+import Branch_Product from '../models/branch_product.model';
 
 export const getAllBranch = async (req, res) => {
   try {
@@ -95,6 +97,86 @@ export const deleteBranch = async (req, res) => {
   try {
     await Branch.update({ isDeleted: true }, { where: { id: id } });
     res.status(200).send('Successfully deleted');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+export const getDistanceBranch = async (req, res) => {
+  const { lat, lng } = req?.query;
+  console.log(req?.query);
+  try {
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) *
+          Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c;
+      return distance;
+    }
+
+    function toRad(degrees) {
+      return (degrees * Math.PI) / 180;
+    }
+
+    function generateRandomRadius() {
+      return Math.random() * 5;
+    }
+    if (lat && lng) {
+      const branches = await Branch.findAll({
+        include: [
+          {
+            model: Branch_Product,
+          },
+        ],
+      });
+      const randomRadius = generateRandomRadius();
+      const filteredBranches = branches.filter((branch) => {
+        const distance = haversine(
+          parseFloat(lat),
+          parseFloat(lng),
+          branch.latitude,
+          branch.longitude,
+        );
+        return distance <= randomRadius;
+      });
+      if (filteredBranches?.length > 0) {
+        return res.status(200).send({ branches: filteredBranches[0] });
+      } else {
+        return res
+          .status(400)
+          .send(
+            'Store doesnt find in your location, please choose different location.',
+          );
+      }
+    } else {
+      const results = await Branch.findOne({
+        where: { head_store: true },
+        include: [
+          {
+            model: Branch_Product,
+          },
+        ],
+      });
+      return res.status(200).send({ branches: results });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+export const getHeadBranch = async (req, res) => {
+  try {
+    const results = await Branch.findOne({
+      where: { head_store: true },
+      include: [{ model: Branch_Product }],
+    });
+    res.status(200).send({ results });
   } catch (error) {
     res.status(500).send(error.message);
   }

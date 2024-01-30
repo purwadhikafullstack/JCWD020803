@@ -5,7 +5,9 @@ import {
   editBranch,
   getAllBranch,
   getBranchById,
-} from '../controllers/branch.controlle';
+  getDistanceBranch,
+  getHeadBranch,
+} from '../controllers/branch.controller';
 import {
   verifyAdminToken,
   verifyIsSuperAdmin,
@@ -16,6 +18,8 @@ const branchRouter = Router();
 branchRouter.get('/', verifyAdminToken, verifyIsSuperAdmin, getAllBranch);
 branchRouter.post('/', verifyAdminToken, verifyIsSuperAdmin, addBranch);
 branchRouter.patch('/', verifyAdminToken, verifyIsSuperAdmin, editBranch);
+branchRouter.get('/head-branch', getHeadBranch);
+branchRouter.get('/distance', getDistanceBranch);
 branchRouter.get(
   '/delete/:id',
   verifyAdminToken,

@@ -32,7 +32,7 @@ export const ProfileHeader = ({ title, link, textLink }) => {
     {
       icon: <CiSettings size={'20px'} />,
       title: 'Change Password',
-      url: `/customer-dashboard/`,
+      url: `/customer-dashboard/change-password`,
     },
     {
       icon: <CiShoppingCart size={'20px'} />,
