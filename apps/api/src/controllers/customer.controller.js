@@ -77,7 +77,7 @@ export const createCustomer = async (req, res) => {
           { email: { [Op.eq]: email } },
           { username: { [Op.eq]: username } },
         ],
-      },  
+      },
     });
     if (customerExist) {
       return res.status(400).send('Email or username already exist');

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CheckoutList } from '../../components/checkout/checkout-list';
 import { Navbar } from '../../components/navbar/Index';
-import { Footer } from '../../components/footer/Index';
+import { Footer } from '../../components/footer';
 
 export const CheckoutPage = () => {
   const [cartData, setCartData] = useState([]);
@@ -18,9 +18,7 @@ export const CheckoutPage = () => {
       <section>
         <Navbar />
         <CheckoutList cartData={cartData} />
-        <div className="mt-8">
-          <Footer />
-        </div>
+        <Footer />
       </section>
     </>
   );

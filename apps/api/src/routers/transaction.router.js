@@ -1,6 +1,6 @@
 // transaction.router.js
 import { Router } from 'express';
-import { customerProfileUpload } from '../middleware/multer.middleware';
+import { transactionUploadPayment } from '../middleware/transaction.multer.middleware';
 import {
   addToCheckout,
   cancelOrder,
@@ -13,7 +13,7 @@ import {
 import { verifyToken } from '../middleware/customer.auth.middleware';
 
 const transactionRouter = Router();
-const upload = customerProfileUpload();
+const upload = transactionUploadPayment();
 
 transactionRouter.use(verifyToken);
 transactionRouter.post('/', addToCheckout);

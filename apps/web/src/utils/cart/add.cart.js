@@ -10,7 +10,7 @@ export const useFetchProducts = () => {
         const response = await axios.get('http://localhost:8000/api/product');
         setProducts(response.data);
       } catch (err) {
-        console.log(err);
+        return err;
       }
     };
 

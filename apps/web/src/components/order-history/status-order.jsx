@@ -1,7 +1,7 @@
 export const StatusOrder = ({ handleStatusClick }) => {
   return (
     <>
-      <div className="flex space-x-4 xl:space-x-2 items-center mt-3">
+      <div className="flex flex-col md:flex-row xl:space-x-2 md:items-center mt-14">
         <p className="font-bold -mt-11 xl:-mt-0">Status</p>
         <div className="flex space-x-2 xl:space-x-4 overflow-x-auto xl:overflow-x-visible rounded-lg pb-11 xl:pb-0">
           <div

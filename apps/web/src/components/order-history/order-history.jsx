@@ -2,7 +2,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Navbar } from '../navbar/Index';
 import { shipmentFunction } from '../../utils/transaction/shipment.function';
-import { Footer } from '../footer/Index';
+import { Footer } from '../footer';
 import { StatusOrder } from './status-order';
 import { OrderFilter } from './order-filter';
 import { useEffect, useState } from 'react';
@@ -98,8 +98,8 @@ export const OrderHistory = () => {
               <div key={order.id}>
                 {order.Transaction_products.map((product) => (
                   <div key={product.id}>
-                    <section className="mt-14">
-                      <div className="flex flex-col px-6 xl:mt-4 py-1 xl:pt-4 xl:pb-10  rounded-xl xl:rounded-xl shadow-inner-more-depth gap-5">
+                    <section className="mt-8">
+                      <div className="flex flex-col px-6 xl:mt-4 py-1 pb-10 xl:pt-4 xl:pb-10  rounded-xl xl:rounded-xl shadow-inner-more-depth gap-5">
                         <div className="flex space-x-10">
                           <p>{moment(order.createdAt).format('LL')}</p>{' '}
                           <p>{order.status}</p>
@@ -127,18 +127,18 @@ export const OrderHistory = () => {
                             </div>
                             <p>80cm x 30cm 1 barang (1 kg)</p>
                             {order.status === 'Waiting Payment' && (
-                              <div className="flex space-x-5 justify-end">
+                              <div className="flex space-x-3 xl:space-x-5 justify-end">
                                 <button
                                   onClick={() =>
                                     handleUploadPaymentProof(order.id)
                                   }
-                                  className="bg-[#00AA5B] px-[22.8vw] py-2 rounded-md font-bold text-white"
+                                  className="bg-[#00AA5B] w-[36vw] h-10 xl:px-[22.8vw] xl:py-2 rounded-md font-bold text-white"
                                 >
-                                  Upload Payment Proof
+                                  Upload Payment
                                 </button>
                                 <button
                                   onClick={() => handleCancelOrder(order.id)}
-                                  className="bg-main-red px-2 py-2 rounded-md font-bold text-white"
+                                  className="bg-main-red  w-[29vw] h-10 xl:px-2 xl:py-2 rounded-md font-bold text-white"
                                 >
                                   Cancel Order
                                 </button>
@@ -176,7 +176,7 @@ export const OrderHistory = () => {
         />
       )}
 
-      <div className="mt-10 pt-10 border-t border-gray-400">
+      <div className="border-t border-gray-400">
         <Footer />
       </div>
     </>

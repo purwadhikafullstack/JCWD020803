@@ -16,7 +16,7 @@ export const CartFunction = () => {
       );
       setCartData(response.data.data);
     } catch (err) {
-      console.error('Error in fetchData:', err);
+      return err;
     }
   };
 
@@ -33,7 +33,7 @@ export const CartFunction = () => {
         },
       );
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -54,7 +54,7 @@ export const CartFunction = () => {
       localStorage.setItem('cartData', JSON.stringify(updatedCartData));
       fetchData();
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -68,7 +68,7 @@ export const CartFunction = () => {
       localStorage.removeItem('cartData');
       fetchData();
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -88,7 +88,7 @@ export const CartFunction = () => {
       );
       fetchData();
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 

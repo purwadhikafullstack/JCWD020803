@@ -3,7 +3,7 @@ import { ProductListCheckout } from '../../components/cart/product-list-checkout
 import { Coupon } from '../../components/cart/coupon';
 import { Struk } from '../../components/cart/struk';
 import { Navbar } from '../../components/navbar/Index';
-import { Footer } from '../../components/footer/Index';
+import { Footer } from '../../components/footer';
 
 export const Cart = () => {
   return (
@@ -11,8 +11,8 @@ export const Cart = () => {
       <nav>
         <Navbar />
       </nav>
-      <div className="w-[90vw] m-auto">
-        <header className="font-semibold text-2xl mt-10 xl:mt-[10vh]">
+      <div className="w-[88.5vw] m-auto">
+        <header className="font-semibold text-2xl mt-10 xl:mt-7">
           Shopping Cart
         </header>
         <section className="relative w-full h-auto pb-20">
@@ -21,7 +21,9 @@ export const Cart = () => {
           <Struk fetchCartData={() => fetchData()} />
         </section>
       </div>
-      <Footer />
+      <div className="mt-[40vh] md:mt-[28vh] xl:mt-[0]">
+        <Footer />
+      </div>
     </>
   );
 };

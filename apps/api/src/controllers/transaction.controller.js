@@ -299,8 +299,15 @@ export const uploadPaymentProof = async (req, res) => {
       });
     }
 
+    let images = null;
+    if (req?.file) {
+      const fileName = req?.file?.filename;
+      const URL = process.env.IMAGE_URL;
+      images = `${URL}/${fileName}`;
+    }
+
     await Transaction.update(
-      { payment_proof: req.file?.path, status: 'Waiting Payment Confirmation' },
+      { payment_proof: images, status: 'Waiting Payment Confirmation' },
       { where: { id: existingTransaction.id } },
     );
 

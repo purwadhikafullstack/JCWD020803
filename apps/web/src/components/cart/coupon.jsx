@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { CartFunction } from '../../utils/cart/cart.function';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 export const Coupon = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { deleteAllItems } = CartFunction();
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -14,15 +17,18 @@ export const Coupon = () => {
 
   const handleDeleteAllItems = async () => {
     try {
+      toast.success('Cart deleted successfully', { autoClose: 5000 });
       await deleteAllItems();
       closeModal();
+      navigate('/cart');
     } catch (err) {
-      console.log(err);
+      toast.error('Error deleting product', { autoClose: 5000 });
+      return err;
     }
   };
 
   return (
-    <div className="w-[62.8vw] h-[20vh] flex flex-col space-y-3 mt-6">
+    <div className="xl:w-[64.7vw] h-[20vh] flex flex-col space-y-3 mt-6">
       <p>Coupon Code:</p>
       <section className="relative flex space-x-[23.5vw]">
         <div className="flex space-x-1">
@@ -37,7 +43,7 @@ export const Coupon = () => {
         </div>
         <button
           onClick={openModal}
-          className="absolute top-[7vh] md:top-0 md:left-[70vw] xl:left-[30.3vw] -left-[0vh] w-[27vw] md:w-[16vw] xl:w-[9vw] py-[1.5vh] md:py-[1vh] xl:py-[1.5vh] hover:bg-main-red rounded-md transition-all text-black hover:text-white font-semibold border border-gray-300"
+          className="absolute top-[7vh] md:top-0 md:left-[49vw] xl:left-[32.2vw] -left-[11.5vh] w-[27vw] md:w-[16vw] xl:w-[9vw] py-[1.5vh] md:py-[1vh] xl:py-[1.5vh] hover:bg-main-red rounded-md transition-all text-black hover:text-white font-semibold border border-gray-300"
         >
           Clean Cart
         </button>
@@ -53,14 +59,12 @@ export const Coupon = () => {
               <button className="mr-2" onClick={closeModal}>
                 Cancel
               </button>
-              <a href="/cart">
-                <button
-                  className="bg-main-red text-white px-4 py-2 rounded-md"
-                  onClick={handleDeleteAllItems}
-                >
-                  Confirm
-                </button>
-              </a>
+              <button
+                className="bg-main-red text-white px-4 py-2 rounded-md"
+                onClick={handleDeleteAllItems}
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </div>

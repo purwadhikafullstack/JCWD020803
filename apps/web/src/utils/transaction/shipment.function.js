@@ -21,7 +21,7 @@ export const shipmentFunction = (selectedPaymentMethod) => {
       );
       setShipmentData(response.data.response);
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -33,7 +33,7 @@ export const shipmentFunction = (selectedPaymentMethod) => {
       );
       setShipmentData(response.data.data);
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -48,7 +48,7 @@ export const shipmentFunction = (selectedPaymentMethod) => {
       );
       setWaitingProof(waitingPaymentOrders);
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -63,7 +63,7 @@ export const shipmentFunction = (selectedPaymentMethod) => {
       );
       setWaitingConfirmed(waitingPaymentConfirmedOrders);
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -78,7 +78,7 @@ export const shipmentFunction = (selectedPaymentMethod) => {
       );
       setDibatalkan(canceledOrders);
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -92,7 +92,7 @@ export const shipmentFunction = (selectedPaymentMethod) => {
         totalHarga: response.data.data.total,
       });
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -103,10 +103,10 @@ export const shipmentFunction = (selectedPaymentMethod) => {
         { PaymentMethodId: selectedPaymentMethod },
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      navigate('/order-history');
+      navigate('/customer-dashboard/profile/order-history');
       fetchData();
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 

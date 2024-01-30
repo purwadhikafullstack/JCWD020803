@@ -9,7 +9,7 @@ export const Struk = () => {
     try {
       if (cartData.length > 0) {
         localStorage.setItem('cartData', JSON.stringify(cartData));
-        navigate('/cart/checkout-page', { state: { cartData } });
+        navigate('/cart/shipment', { state: { cartData } });
       }
     } catch (err) {
       console.log(err);
@@ -23,7 +23,7 @@ export const Struk = () => {
 
   return (
     <>
-      <div className="absolute w-full md:w-[40vw] md:h-[34vh] xl:w-[22vw] pt-4 xl:h-[57vh] -bottom-[40vh] left-0 md:top-[65vh] xl:top-0 xl:left-[67vw] shadow-2xl">
+      <div className="absolute rounded-lg bg-white w-full md:w-[40vw] md:h-[34vh] xl:w-[22vw] py-4 xl:h-[57vh] -bottom-[30vh] left-0 md:top-[35vh] xl:top-0 xl:left-[67vw] shadow-2xl">
         <div className=" md:w-[38vw] md:h-[30vh] xl:w-[90%] xl:h-[40vh] px-2 md:px-4 xl:px-0 m-auto md:mt-5">
           <p className="font-semibold text-xl">order summary</p>
           <section className="flex flex-col space-y-4 mt-10 pb-8 border-b border-gray.300">
