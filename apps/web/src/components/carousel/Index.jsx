@@ -6,11 +6,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
 import { CgChevronLeft, CgChevronRight } from 'react-icons/cg';
-import { useSelector } from 'react-redux';
 import { StoreLocation } from './storeLocation';
 import { DeliverLocation } from './deliverLocation';
 
-export const MainCarousel = () => {
+export const MainCarousel = ({ deliveried, branch }) => {
   useEffect(() => {
     AOS.init({
       once: true,
@@ -46,28 +45,7 @@ export const MainCarousel = () => {
   const [open, setOpen] = useState(false);
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
-  const [deliveried, setDeliveried] = useState();
 
-  const address = useSelector((state) => state.customerAddress.value);
-  const handleDeliveried = () => {
-    if (address?.length > 0) {
-      const deliveried = address?.filter(
-        (deliveried) => deliveried?.isDeliveried === true,
-      );
-      if (deliveried?.length > 0) {
-        return setDeliveried(deliveried);
-      } else {
-        const primaryAddress = address?.filter(
-          (primary) => primary?.primary_address === true,
-        );
-        return setDeliveried(primaryAddress);
-      }
-    }
-  };
-  useEffect(() => {
-    handleDeliveried();
-  }, [address]);
-  console.log(deliveried)
   return (
     <div className="px-3 laptop:pr-[6%] laptop:pl-[3%] flex flex-col-reverse justify-center gap-2">
       <Carousel
@@ -122,7 +100,7 @@ export const MainCarousel = () => {
           </div>
         ))}
       </Carousel>
-      {deliveried ? (
+      {deliveried.length >= 1 ? (
         <div className="flex justify-between items-center">
           <DeliverLocation
             closeDrawer={closeDrawer}
@@ -131,7 +109,7 @@ export const MainCarousel = () => {
             open={open}
           />
           <span className="w-0.5 ml-1 h-10 bg-gray-400 laptop:hidden"></span>
-          <StoreLocation deliveried={deliveried} />
+          <StoreLocation deliveried={deliveried} branch={branch} />
         </div>
       ) : (
         <div>

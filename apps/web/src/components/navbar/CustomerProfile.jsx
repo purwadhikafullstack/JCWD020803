@@ -13,7 +13,7 @@ export const CustomerProfile = () => {
   const handleSignOut = () => {
     const signOut = confirm('Are you sure you want to sign out');
     if (signOut === true) {
-      localStorage.clear();
+      localStorage.removeItem('token');
       window.location.reload();
     } else {
       return;

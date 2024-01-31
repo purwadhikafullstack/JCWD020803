@@ -79,7 +79,6 @@ const router = createBrowserRouter([
   },
 
   //admin
-  { path: '/manage-product', element: <ManageProduct></ManageProduct> },
   {
     path: '/product-catalogue',
     element: <ProductCatalogue></ProductCatalogue>,
@@ -103,8 +102,10 @@ const router = createBrowserRouter([
         path: '/admin-management',
         element: <AdminManagement />,
       },
+      { path: '/dashboard/products', element: <ManageProduct></ManageProduct> },
     ],
   },
+
   {
     element: <SuperAdminRequired />,
     children: [

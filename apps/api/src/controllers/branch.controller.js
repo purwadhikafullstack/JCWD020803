@@ -2,6 +2,7 @@ import Branch from '../models/branch.model';
 import Admin from '../models/admin.model';
 import Customer from '../models/customer.model';
 import Branch_Product from '../models/branch_product.model';
+import Product from '../models/product.model';
 
 export const getAllBranch = async (req, res) => {
   try {
@@ -129,13 +130,7 @@ export const getDistanceBranch = async (req, res) => {
       return Math.random() * 5;
     }
     if (lat && lng) {
-      const branches = await Branch.findAll({
-        include: [
-          {
-            model: Branch_Product,
-          },
-        ],
-      });
+      const branches = await Branch.findAll();
       const randomRadius = generateRandomRadius();
       const filteredBranches = branches.filter((branch) => {
         const distance = haversine(
@@ -146,7 +141,8 @@ export const getDistanceBranch = async (req, res) => {
         );
         return distance <= randomRadius;
       });
-      if (filteredBranches?.length > 0) {
+      console.log(filteredBranches?.length);
+      if (filteredBranches?.length >= 1) {
         return res.status(200).send({ branches: filteredBranches[0] });
       } else {
         return res
@@ -158,11 +154,6 @@ export const getDistanceBranch = async (req, res) => {
     } else {
       const results = await Branch.findOne({
         where: { head_store: true },
-        include: [
-          {
-            model: Branch_Product,
-          },
-        ],
       });
       return res.status(200).send({ branches: results });
     }

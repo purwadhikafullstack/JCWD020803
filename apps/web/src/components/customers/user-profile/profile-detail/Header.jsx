@@ -3,7 +3,6 @@ import {
   CiUser,
   CiLocationOn,
   CiSettings,
-  CiLogout,
   CiShoppingCart,
 } from 'react-icons/ci';
 import AOS from 'aos';
