@@ -21,7 +21,7 @@ import { AdminProfilePage } from './pages/admin/Profile';
 import { VerifyAdmin } from './pages/admin/verify/Index';
 import { ResetPassword } from './pages/admin/reset-password/Index';
 import { ProductCatalogue } from './components/admin/dashboard/product/product-catalogue/Index';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import VerifyNewEmailPage from './pages/verify-new-email/Index';
 import { getCustomerAddress } from './utils/address/get.customer.address';
@@ -39,7 +39,11 @@ import SuperAdminRequired from './components/required/super.admin.required';
 import { Cart } from './pages/cart.page/Cart';
 import { CheckoutPage } from './pages/checkout.page/Checkout';
 import { OrderHistory } from './components/order-history/order-history';
-import { AdminTransaction } from './components/transaction-admin/admin-transaction';
+import { positionData } from './redux/position.slice';
+import { deliveryData } from './redux/delivery.slice';
+import { getHeadBranch } from './utils/branch/get.head.branch';
+import 'react-toastify/dist/ReactToastify.css';
+import ReverificationPage from './pages/reverification-page';
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
@@ -84,9 +88,12 @@ const router = createBrowserRouter([
     path: '/forgot-password/new-password/:token',
     element: <NewPasswordPage />,
   },
+  {
+    path: '/reverification',
+    element: <ReverificationPage />,
+  },
 
   //admin
-  { path: '/manage-product', element: <ManageProduct></ManageProduct> },
   {
     path: '/product-catalogue',
     element: <ProductCatalogue></ProductCatalogue>,
@@ -111,8 +118,10 @@ const router = createBrowserRouter([
         path: '/admin-management',
         element: <AdminManagement />,
       },
+      { path: '/dashboard/products', element: <ManageProduct></ManageProduct> },
     ],
   },
+
   {
     element: <SuperAdminRequired />,
     children: [
@@ -136,10 +145,20 @@ function App() {
   const token = localStorage?.getItem('token');
   const tokenAdmin = localStorage.getItem('tokenAdmin');
   const dispatch = useDispatch();
-
+  const deliveried = useSelector((state) => state.delivery.value);
+  console.log(deliveried);
   const getAddress = async () => {
     if (token) {
       const response = await getCustomerAddress(token);
+      console.log(response);
+      if (response?.data?.result?.length > 1) {
+        const deliveryAddress = response?.data?.result?.filter(
+          (delivery) => delivery?.isDeliveried === true,
+        );
+        dispatch(deliveryData(deliveryAddress));
+      } else {
+        dispatch(deliveryData(response?.data?.result));
+      }
       dispatch(addressData(response?.data?.result));
     }
   };
@@ -147,7 +166,6 @@ function App() {
     if (token) {
       const response = await getAllProvince();
       if (response?.data?.rajaongkir?.results) {
-        console.log(response);
         dispatch(setProvinces(response?.data?.rajaongkir?.results));
       } else {
         dispatch(setProvinces(response?.data));
@@ -160,6 +178,20 @@ function App() {
       dispatch(setData(response?.data?.result));
     }
   };
+  const getStoreLocation = async () => {
+    if (token) {
+      if (deliveried) {
+        deliveried?.map((deliveried) => {
+          dispatch(positionData(deliveried));
+          console.log(deliveried);
+        });
+      }
+    } else if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        dispatch(positionData(position?.coords));
+      });
+    }
+  };
 
   useEffect(() => {
     keepLoginCustomers();
@@ -168,8 +200,6 @@ function App() {
   useEffect(() => {
     if (tokenAdmin) {
       keepLoginAdmin(dispatch, tokenAdmin);
-    } else {
-      return;
     }
   }, [tokenAdmin]);
 
@@ -177,6 +207,9 @@ function App() {
     getAddress();
     getProvince();
   }, []);
+  useEffect(() => {
+    getStoreLocation();
+  }, [deliveried]);
 
   return (
     <>
