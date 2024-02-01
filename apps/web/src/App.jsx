@@ -39,6 +39,7 @@ import SuperAdminRequired from './components/required/super.admin.required';
 import { Cart } from './pages/cart.page/Cart';
 import { CheckoutPage } from './pages/checkout.page/Checkout';
 import { OrderHistory } from './components/order-history/order-history';
+import { AdminTransaction } from './components/transaction-admin/admin-transaction';
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
@@ -102,6 +103,7 @@ const router = createBrowserRouter([
   { path: '/overview', element: <Overview></Overview> },
   { path: '/register-admin', element: <RegisterAdmin></RegisterAdmin> },
   { path: '/admin/profile', element: <AdminProfilePage></AdminProfilePage> },
+  { path: '/admin/transaction', element: <AdminTransaction /> },
   {
     element: <AdminRequired />,
     children: [

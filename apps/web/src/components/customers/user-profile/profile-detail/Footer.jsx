@@ -3,7 +3,9 @@ import { MdFavoriteBorder, MdOutlineHistory } from 'react-icons/md';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 export const ProfileFooter = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     AOS.init({
       disable: false,
@@ -25,6 +27,10 @@ export const ProfileFooter = () => {
       title: 'Order History',
     },
   ];
+
+  const handleNavigate = () => {
+    navigate('/customer-dashboard/profile/order-history');
+  };
   return (
     <section className="h-[100%] pb-5 bg-gray-200">
       <div className="h-[70%] bg-white mx-2 rounded-lg shadow-lg py-5 tablet:grid tablet:grid-cols-3 tablet:gap-2 tablet:px-4">
@@ -32,7 +38,13 @@ export const ProfileFooter = () => {
           <div
             className="my-3 h-[30%] w-[80%] border mx-auto hover:bg-main-pink/10 transition duration-300 tablet:w-[100%] tablet:h-[80%] "
             key={idx}
-            onClick={() => alert(idx)}
+            onClick={() => {
+              if (idx == 2) {
+                handleNavigate();
+              } else {
+                alert(idx);
+              }
+            }}
           >
             <div
               className="flex flex-col items-center justify-center h-[100%]"
