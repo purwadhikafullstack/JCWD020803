@@ -5,7 +5,15 @@ import Branch_Product from '../models/branch_product.model';
 import Product from '../models/product.model';
 
 export const getAllBranch = async (req, res) => {
+  const { pages } = req?.query;
   try {
+    const page = parseInt(pages);
+    const pageSize = parseInt(req.query.pageSize) || 1;
+    const offset = (page - 1) * pageSize;
+
+    const totalCount = await Branch.count();
+    const totalPages = Math.ceil(totalCount / pageSize);
+
     const results = await Branch.findAll({
       include: [
         {
@@ -13,10 +21,19 @@ export const getAllBranch = async (req, res) => {
           attributes: ['name', 'email', 'image'],
         },
       ],
+      offset: offset,
+      limit: pageSize,
     });
-    res.status(200).send({ result: results });
+
+    res.status(200).send({
+      result: results,
+      page: page,
+      pageSize: pageSize,
+      totalPages: totalPages,
+      totalCount: totalCount,
+    });
   } catch (error) {
-    res.status(200).send(error.message);
+    res.status(500).send(error.message);
   }
 };
 
@@ -85,7 +102,6 @@ export const editBranch = async (req, res) => {
       },
       { where: { id: data?.id } },
     );
-    console.log(data);
     res.status(200).send('Success upadate');
   } catch (error) {
     res.status(500).send(error.message);
@@ -93,7 +109,6 @@ export const editBranch = async (req, res) => {
 };
 
 export const deleteBranch = async (req, res) => {
-  console.log(req?.params);
   const { id } = req?.params;
   try {
     await Branch.update({ isDeleted: true }, { where: { id: id } });
@@ -105,7 +120,6 @@ export const deleteBranch = async (req, res) => {
 
 export const getDistanceBranch = async (req, res) => {
   const { lat, lng } = req?.query;
-  console.log(req?.query);
   try {
     function haversine(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -141,7 +155,6 @@ export const getDistanceBranch = async (req, res) => {
         );
         return distance <= randomRadius;
       });
-      console.log(filteredBranches?.length);
       if (filteredBranches?.length >= 1) {
         return res.status(200).send({ branches: filteredBranches[0] });
       } else {

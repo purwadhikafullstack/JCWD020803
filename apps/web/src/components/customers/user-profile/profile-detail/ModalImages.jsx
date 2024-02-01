@@ -99,6 +99,7 @@ export const ModalUploadImage = () => {
           withBorder="true"
           className="p-0.5 text-[12px]"
           color="red"
+          
         />
       </Badge>
       <Dialog open={open} handler={handleOpen} size="xs">

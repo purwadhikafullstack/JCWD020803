@@ -36,6 +36,9 @@ import BranchPage from './pages/admin/branch-page/Index';
 import NewBranchPage from './pages/admin/branch-page/new-branch/Index';
 import EditBranchPage from './pages/admin/branch-page/edit-branch/Index';
 import SuperAdminRequired from './components/required/super.admin.required';
+import { Cart } from './pages/cart.page/Cart';
+import { CheckoutPage } from './pages/checkout.page/Checkout';
+import { OrderHistory } from './components/order-history/order-history';
 import { positionData } from './redux/position.slice';
 import { deliveryData } from './redux/delivery.slice';
 import { getHeadBranch } from './utils/branch/get.head.branch';
@@ -65,6 +68,18 @@ const router = createBrowserRouter([
       {
         path: '/verification/:token',
         element: <VerifyNewEmailPage />,
+      },
+      {
+        path: '/cart',
+        element: <Cart />,
+      },
+      {
+        path: '/cart/shipment',
+        element: <CheckoutPage />,
+      },
+      {
+        path: '/customer-dashboard/profile/order-history',
+        element: <OrderHistory />,
       },
     ],
   },
@@ -184,8 +199,6 @@ function App() {
   useEffect(() => {
     if (tokenAdmin) {
       keepLoginAdmin(dispatch, tokenAdmin);
-    } else {
-      return;
     }
   }, [tokenAdmin]);
 

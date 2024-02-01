@@ -61,7 +61,7 @@ export const CardHome = ({ productList }) => {
               {product?.Product?.isDisabled === false ? (
                 <button
                   className="px-5 py-2 bg-main-red text-white rounded-lg text-sm font-bold"
-                  onClick={() => alert(`index ke`)}
+                  onClick={() => alert(`branch id: ${product?.BranchId} product id : ${product?.ProductId}`)}
                 >
                   +Basket
                 </button>

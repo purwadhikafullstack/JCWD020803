@@ -15,7 +15,7 @@ import {
 
 const branchRouter = Router();
 
-branchRouter.get('/', verifyAdminToken, verifyIsSuperAdmin, getAllBranch);
+branchRouter.get('/', getAllBranch);
 branchRouter.post('/', verifyAdminToken, verifyIsSuperAdmin, addBranch);
 branchRouter.patch('/', verifyAdminToken, verifyIsSuperAdmin, editBranch);
 branchRouter.get('/head-branch', getHeadBranch);

@@ -10,6 +10,15 @@ export const addCustomer = async (data) => {
   }
 };
 
+export const socialRegister = async (data) => {
+  try {
+    const response = await api.post(`customer/social-register`, data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const validateReferral = async (referral_code) => {
   try {
     const response = await api.get(
@@ -30,14 +39,6 @@ export const validateReferral = async (referral_code) => {
   }
 };
 
-export const socialRegister = async (data) => {
-  try {
-    const response = await api.post(`customer/social-register`, data);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const registSchema = Yup.object({
   first_name: Yup.string()
