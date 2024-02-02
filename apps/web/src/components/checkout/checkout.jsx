@@ -3,7 +3,7 @@ import { CartFunction } from '../../utils/cart/cart.function';
 import { shipmentFunction } from '../../utils/transaction/shipment.function';
 import { AiOutlineClose } from 'react-icons/ai';
 
-export const Checkout = () => {
+export const Checkout = ({ deliveried }) => {
   const { cartData } = CartFunction();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const { postData } = shipmentFunction(selectedPaymentMethod);
@@ -15,13 +15,20 @@ export const Checkout = () => {
 
   return (
     <>
-      <div className="w-full xl:w-[30vw] bg-white px-4 py-7 xl:rounded-xl xl:ml-5 h-fit space-y-5">
+      <div className="w-full xl:w-[30vw] bg-white px-4 py-7 xl:rounded-xl xl:ml-5 h-fit space-y-5 font-poppins">
         <p className="font-semibold">Ringkasan belanja</p>
         <section className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <p>Total Harga Produk</p>
-            <p>Rp.{totalHargaProduk}</p>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between text-sm">
+              <p>Total Harga Produk</p>
+              <p>Rp.{totalHargaProduk}</p>
+            </div>
+            <div className="flex justify-between text-sm">
+              <p>Ongkos kirim</p>
+              <p>Rp.0</p>
+            </div>
           </div>
+
           <div className="flex justify-between h-8 font-semibold items-end xl:border-t border-gray-400">
             <p>Total Belanja</p>
             <p>-</p>
@@ -31,13 +38,18 @@ export const Checkout = () => {
           Makin hemat pakai promo
         </button>
         <button
+          disabled={deliveried?.length < 1}
           onClick={() => {
             // Assuming `paymentMethodId` is a string or a number
             const paymentMethodId = '2'; // Replace this with your logic to get the payment method ID
             document.getElementById('my_modal_1').showModal();
             setSelectedPaymentMethod(String(paymentMethodId)); // Convert to string explicitly
           }}
-          className="bg-main-red w-full py-3 rounded-md text-white font-bold"
+          className={`${
+            deliveried?.length >= 1
+              ? 'bg-main-red w-full py-3 rounded-md text-white font-bold'
+              : 'cursor-not-allowed  w-full py-3 rounded-md text-white font-bold bg-gray-200'
+          }`}
         >
           Pilih Pembayaran
         </button>

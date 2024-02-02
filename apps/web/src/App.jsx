@@ -44,6 +44,7 @@ import { deliveryData } from './redux/delivery.slice';
 import { getHeadBranch } from './utils/branch/get.head.branch';
 import 'react-toastify/dist/ReactToastify.css';
 import ReverificationPage from './pages/reverification-page';
+import { AdminTransaction } from './components/transaction-admin/admin-transaction';
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },

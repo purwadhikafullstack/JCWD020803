@@ -94,9 +94,9 @@ export const OrderHistory = () => {
             />
             <StatusOrder handleStatusClick={handleStatusClick} />
 
-            {ordersToRender.map((order) => (
+            {ordersToRender?.map((order) => (
               <div key={order.id}>
-                {order.Transaction_products.map((product) => (
+                {order?.Transaction_products?.map((product) => (
                   <div key={product.id}>
                     <section className="mt-7 xl:mt-20">
                       <div className="flex flex-col px-6 xl:mt-4 py-1 pb-10 xl:pt-4 xl:pb-10  rounded-xl xl:rounded-xl shadow-inner-more-depth gap-5">
