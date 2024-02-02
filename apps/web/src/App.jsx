@@ -45,6 +45,8 @@ import { getHeadBranch } from './utils/branch/get.head.branch';
 import 'react-toastify/dist/ReactToastify.css';
 import ReverificationPage from './pages/reverification-page';
 import { AdminTransaction } from './components/transaction-admin/admin-transaction';
+import DetailVouchersPage from './pages/user-dashboard/detail-vouchers';
+
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
@@ -69,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: '/verification/:token',
         element: <VerifyNewEmailPage />,
+      },
+      {
+        path: '/customer-dashboard/vouchers/detail/:code',
+        element: <DetailVouchersPage />,
       },
       {
         path: '/cart',
@@ -147,11 +153,9 @@ function App() {
   const tokenAdmin = localStorage.getItem('tokenAdmin');
   const dispatch = useDispatch();
   const deliveried = useSelector((state) => state.delivery.value);
-  console.log(deliveried);
   const getAddress = async () => {
     if (token) {
       const response = await getCustomerAddress(token);
-      console.log(response);
       if (response?.data?.result?.length > 1) {
         const deliveryAddress = response?.data?.result?.filter(
           (delivery) => delivery?.isDeliveried === true,
@@ -184,7 +188,6 @@ function App() {
       if (deliveried) {
         deliveried?.map((deliveried) => {
           dispatch(positionData(deliveried));
-          console.log(deliveried);
         });
       }
     } else if ('geolocation' in navigator) {

@@ -155,14 +155,8 @@ export const getDistanceBranch = async (req, res) => {
         );
         return distance <= randomRadius;
       });
-      if (filteredBranches?.length >= 1) {
+      if (filteredBranches?.length > 0) {
         return res.status(200).send({ branches: filteredBranches[0] });
-      } else {
-        return res
-          .status(400)
-          .send(
-            'Store doesnt find in your location, please choose different location.',
-          );
       }
     } else {
       const results = await Branch.findOne({
