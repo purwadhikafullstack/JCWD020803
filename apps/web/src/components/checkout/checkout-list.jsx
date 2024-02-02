@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { Checkout } from './checkout';
+import { useSelector } from 'react-redux';
 
 export const CheckoutList = ({ cartData }) => {
+  const deliveried = useSelector((state) => state.delivery.value);
+  const navigate = useNavigate();
   return (
     <div className="pt-6 bg-[#F0F3F7] h-auto pb-10">
       <header className=" w-[100vw] md:w-[80vw] xl:w-[92vw] m-auto xl:flex space-y-2 xl:space-y-[9.5vh]">
@@ -8,25 +12,53 @@ export const CheckoutList = ({ cartData }) => {
           <div className="hidden xl:block text-3xl font-bold text-black">
             Pengiriman
           </div>
-          <section className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg">
-            <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
-              ALAMAT PENGIRIMAN
-            </p>
-            <p className="text-sm">
-              <span className="font-bold">Luthfi Al Finnegan</span> (Rumah)
-            </p>
-            <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
-              <p>
-                Kp.Karangcagak Desa.Cidahu, Kec.Pagaden Barat, Kabupaten
-                Subang,41252
+          {deliveried?.length >= 1 ? (
+            deliveried?.map((delivery) => (
+              <section
+                className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg"
+                key={delivery?.id}
+              >
+                <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
+                  ALAMAT PENGIRIMAN
+                </p>
+                <p className="text-sm">
+                  <span className="font-bold">{delivery?.received_name}</span> (
+                  {delivery?.label_address})
+                </p>
+                <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
+                  <p>{delivery?.street}</p>
+                </div>
+                <button
+                  className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"
+                  onClick={() => navigate('/customer-dashboard/address')}
+                >
+                  {deliveried ? 'Pilih Alamat Lain' : 'Tambah Alamat'}
+                </button>
+              </section>
+            ))
+          ) : (
+            <section
+              className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg"
+            >
+              <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
+                ALAMAT PENGIRIMAN
               </p>
-            </div>
-            <button className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold">
-              Pilih Alamat Lain
-            </button>
-          </section>
+              <p className="text-sm">
+                <span className="font-bold">Anda belum memiliki alamat</span> 
+              </p>
+              <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
+                <p>Silahkan tambah alamat</p>
+              </div>
+              <button
+                className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"
+                onClick={() => navigate('/customer-dashboard/address')}
+              >
+                Tambah alamat
+              </button>
+            </section>
+          )}
           {cartData.map((item) => (
-            <section>
+            <section key={item?.id}>
               <div className="flex bg-white pl-6 mt-2 xl:mt-4 py-10 xl:rounded-xl shadow-lg">
                 <div className="flex w-full">
                   <div className="w-[17vw] h-[8vh] md:w-[12vw] md:h-[10vh] xl:w-[6.5vw] xl:h-[13vh]">
@@ -56,7 +88,7 @@ export const CheckoutList = ({ cartData }) => {
             </section>
           ))}
         </div>
-        <Checkout cartData={cartData} />
+        <Checkout cartData={cartData} deliveried={deliveried} />
       </header>
     </div>
   );
