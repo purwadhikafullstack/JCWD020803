@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 export const ProfileFooter = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     AOS.init({
       disable: false,
