@@ -2,19 +2,20 @@ import Branch from '../models/branch.model';
 import Admin from '../models/admin.model';
 import Customer from '../models/customer.model';
 import Branch_Product from '../models/branch_product.model';
-import Product from '../models/product.model';
 
 export const getAllBranch = async (req, res) => {
   const { pages } = req?.query;
+  console.log(pages);
   try {
     const page = parseInt(pages);
-    const pageSize = parseInt(req.query.pageSize) || 1;
+    const pageSize = 2;
     const offset = (page - 1) * pageSize;
 
     const totalCount = await Branch.count();
     const totalPages = Math.ceil(totalCount / pageSize);
 
     const results = await Branch.findAll({
+      where: { isDeleted: false },
       include: [
         {
           model: Admin,
@@ -46,10 +47,21 @@ export const addBranch = async (req, res) => {
       head_store = true;
     }
     const branchExist = await Branch.findOne({
-      where: { branch_name: data?.branch_name, address: data?.address },
+      where: {
+        branch_name: data?.branch_name,
+        address: data?.address,
+      },
     });
+    const adminExist = await Branch.findOne({
+      where: { AdminId: data?.AdminId },
+    });
+
     if (branchExist) {
       return res.status(400).send('Branch already exists');
+    }
+
+    if (adminExist) {
+      return res.status(400).send('Admins are not allowed to have 2 branches');
     }
     await Branch.create({
       branch_name: data?.branch_name,

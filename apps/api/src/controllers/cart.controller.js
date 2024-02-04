@@ -39,14 +39,20 @@ export const getActive = async (req, res) => {
           include: [
             {
               model: Product,
-              attributes: ['product_name', 'price', 'descriptions'],
+              attributes: ['product_name', 'price', 'descriptions', 'weight'],
               include: [
                 {
                   model: Branch_product,
                   include: [
                     {
                       model: Branch,
-                      attributes: ['branch_name', 'store_contact', 'address'],
+                      attributes: [
+                        'branch_name',
+                        'store_contact',
+                        'address',
+                        'province_id',
+                        'city_id',
+                      ],
                     },
                   ],
                 },

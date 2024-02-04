@@ -11,6 +11,8 @@ import { transactionRouter } from './routers/transaction.router';
 import { branch_productRouter } from './routers/branch.product.router';
 import { userVouchersRouter } from './routers/user.voucher.router';
 import { voucherRouter } from './routers/voucher.router';
+import { shippingRouter } from './routers/shipping.router';
+import { categoryRouter } from './routers/category.router';
 
 const router = Router();
 
@@ -30,7 +32,8 @@ router.use('/branch', branchRouter);
 router.use('/transaction', transactionRouter);
 router.use('/user-vouchers', userVouchersRouter);
 router.use('/vouchers', voucherRouter);
-
+router.use('/shipping', shippingRouter);
+router.use('/categories', categoryRouter);
 // add another router here ...
 
 export default router;
