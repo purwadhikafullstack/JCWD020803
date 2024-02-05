@@ -53,7 +53,6 @@ export const CardHome = ({ productList }) => {
                   </small>
                 </div>
                 <h1 className="font-bold">
-                  {console.log(product)}
                   {product?.Product?.price.toLocaleString('id-ID', {
                     style: 'currency',
                     currency: 'IDR',

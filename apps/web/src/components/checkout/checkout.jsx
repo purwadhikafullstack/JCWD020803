@@ -9,33 +9,40 @@ export const Checkout = ({ deliveried }) => {
   const { postData } = shipmentFunction(selectedPaymentMethod);
 
   const totalHargaProduk = cartData.reduce(
-    (total, item) => total + item.Cart_detail.Product.price,
-    0,
+    (total, item) =>
+      total +
+      (
+        item.Cart_detail.quantity * item.Cart_detail.Product.price
+      ).toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+      }),
+    '',
   );
 
   return (
     <>
       <div className="w-full xl:w-[30vw] bg-white px-4 py-7 xl:rounded-xl xl:ml-5 h-fit space-y-5 font-poppins">
-        <p className="font-semibold">Ringkasan belanja</p>
+        <p className="font-semibold">Shopping Summary</p>
         <section className="space-y-2">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-sm">
-              <p>Total Harga Produk</p>
-              <p>Rp.{totalHargaProduk}</p>
+              <p>Total Product Price</p>
+              <p>{totalHargaProduk}</p>
             </div>
             <div className="flex justify-between text-sm">
-              <p>Ongkos kirim</p>
+              <p>Shipping Cost</p>
               <p>Rp.0</p>
             </div>
           </div>
 
           <div className="flex justify-between h-8 font-semibold items-end xl:border-t border-gray-400">
-            <p>Total Belanja</p>
+            <p>Total Spending</p>
             <p>-</p>
           </div>
         </section>
         <button className="font-semibold text-gray-800 border w-full border-gray-400 py-3 rounded-lg">
-          Makin hemat pakai promo
+          Save More with Promo
         </button>
         <button
           disabled={deliveried?.length < 1}
@@ -51,7 +58,7 @@ export const Checkout = ({ deliveried }) => {
               : 'cursor-not-allowed  w-full py-3 rounded-md text-white font-bold bg-gray-200'
           }`}
         >
-          Pilih Pembayaran
+          Select Payment
         </button>
       </div>
       <section>
@@ -99,14 +106,14 @@ export const Checkout = ({ deliveried }) => {
             </div>
             <div className="flex justify-between">
               <div className="flex flex-col text-sm">
-                <p>Total Tagihan</p>
+                <p>Total Bill</p>
                 <p>{totalHargaProduk}</p>
               </div>
               <button
                 onClick={postData}
                 className="bg-main-red text-white px-[6.5vw] rounded-md"
               >
-                Bayar
+                Pay
               </button>
             </div>
           </div>

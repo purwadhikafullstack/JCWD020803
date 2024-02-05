@@ -10,7 +10,7 @@ export const CheckoutList = ({ cartData }) => {
       <header className=" w-[100vw] md:w-[80vw] xl:w-[92vw] m-auto xl:flex space-y-2 xl:space-y-[9.5vh]">
         <div className="md:w-[80vw] xl:w-[61vw] ">
           <div className="hidden xl:block text-3xl font-bold text-black">
-            Pengiriman
+            Shipping
           </div>
           {deliveried?.length >= 1 ? (
             deliveried?.map((delivery) => (
@@ -19,7 +19,7 @@ export const CheckoutList = ({ cartData }) => {
                 key={delivery?.id}
               >
                 <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
-                  ALAMAT PENGIRIMAN
+                  SHIPPING ADDRESS
                 </p>
                 <p className="text-sm">
                   <span className="font-bold">{delivery?.received_name}</span> (
@@ -32,34 +32,39 @@ export const CheckoutList = ({ cartData }) => {
                   className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"
                   onClick={() => navigate('/customer-dashboard/address')}
                 >
-                  {deliveried ? 'Pilih Alamat Lain' : 'Tambah Alamat'}
+                  {deliveried ? 'Choose another address' : 'Add address'}
                 </button>
               </section>
             ))
           ) : (
-            <section
-              className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg"
-            >
+            <section className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg">
               <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
-                ALAMAT PENGIRIMAN
+                SHIPPING ADDRESS
               </p>
               <p className="text-sm">
-                <span className="font-bold">Anda belum memiliki alamat</span> 
+                <span className="font-bold">you don't have an address yet</span>
               </p>
               <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
-                <p>Silahkan tambah alamat</p>
+                <p>Choose another address</p>
               </div>
               <button
                 className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"
                 onClick={() => navigate('/customer-dashboard/address')}
               >
-                Tambah alamat
+                add address
               </button>
             </section>
           )}
           {cartData.map((item) => (
             <section key={item?.id}>
-              <div className="flex bg-white pl-6 mt-2 xl:mt-4 py-10 xl:rounded-xl shadow-lg">
+              <div className="flex-col bg-white pl-6 mt-2 xl:mt-4 pt-4 pb-14 xl:rounded-xl shadow-lg">
+                <p className="font-bold">Served by Ez Mart</p>
+                <p className="pb-3">
+                  {
+                    item.Cart_detail.Product.Branch_products[0].Branch
+                      .branch_name
+                  }
+                </p>
                 <div className="flex w-full">
                   <div className="w-[17vw] h-[8vh] md:w-[12vw] md:h-[10vh] xl:w-[6.5vw] xl:h-[13vh]">
                     <img
@@ -75,12 +80,18 @@ export const CheckoutList = ({ cartData }) => {
                       </p>
                       <p className="font-semibold">
                         {item.Cart_detail.quantity} x{' '}
-                        {item.Cart_detail.Product.price}
+                        {item.Cart_detail.Product.price.toLocaleString(
+                          'id-ID',
+                          {
+                            style: 'currency',
+                            currency: 'IDR',
+                          },
+                        )}
                       </p>
                     </div>
-                    <p>80cm x 30cm 1 barang (1 kg)</p>
+                    <p>{item.Cart_detail.Product.descriptions}</p>
                     <button className="text-black border border-[#6D7588] w-[90vw] md:w-[75vw] absolute xl:static top-[10vh] -left-[21vw] md:top-[11vh] md:-left-[14vw] xl:w-full xl:px-[5vw] py-2.5 rounded-md font-semibold mt-2">
-                      Pengiriman
+                      Shipping
                     </button>
                   </div>
                 </div>
