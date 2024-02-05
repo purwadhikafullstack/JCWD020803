@@ -1,8 +1,6 @@
 import { Carousel, IconButton } from '@material-tailwind/react';
 import imageCarousel_1 from '../../assets/carousel_1.jpg';
 import imageCarousel_5 from '../../assets/carousel_5.jpg';
-import imageCarousel_6 from '../../assets/carousel_6.jpg';
-import imageCarousel_3 from '../../assets/carousel_3.jpg';
 import imageCarousel_4 from '../../assets/carousel_4.jpg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -20,7 +18,7 @@ export const MainCarousel = ({ deliveried, branch, distance }) => {
   });
   const items = [
     {
-      img: imageCarousel_6,
+      img: imageCarousel_1,
       alt: 'Image 1',
     },
     {
