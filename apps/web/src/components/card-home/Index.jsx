@@ -1,9 +1,8 @@
-import { Button } from '@material-tailwind/react';
-import category_snack from '../../assets/category_snack.jpg';
 import 'aos/dist/aos.css';
 import { CartFunction } from '../../utils/cart/cart.function';
 export const CardHome = ({ productList }) => {
   const { addToCart } = CartFunction();
+
   return (
     <section className="font-poppins">
       <div className="text-center px-[15%] pt-5">
@@ -53,7 +52,6 @@ export const CardHome = ({ productList }) => {
                   </small>
                 </div>
                 <h1 className="font-bold">
-                  {console.log(product)}
                   {product?.Product?.price.toLocaleString('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
