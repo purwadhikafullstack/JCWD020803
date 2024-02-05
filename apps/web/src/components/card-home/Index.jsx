@@ -2,7 +2,6 @@ import 'aos/dist/aos.css';
 import { CartFunction } from '../../utils/cart/cart.function';
 export const CardHome = ({ productList }) => {
   const { addToCart } = CartFunction();
-
   return (
     <section className="font-poppins">
       <div className="text-center px-[15%] pt-5">
