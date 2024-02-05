@@ -51,6 +51,7 @@ export const addBranch = async (req, res) => {
         branch_name: data?.branch_name,
         address: data?.address,
       },
+
     });
     const adminExist = await Branch.findOne({
       where: { AdminId: data?.AdminId },

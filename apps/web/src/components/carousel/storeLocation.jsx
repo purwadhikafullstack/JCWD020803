@@ -1,3 +1,4 @@
+
 export const StoreLocation = ({ deliveried, branch, distances }) => {
   return (
     <div className="font-poppins rounded-lg w-[50%] laptop:py-2 laptop:px-1 overflow-hidden">

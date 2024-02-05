@@ -33,7 +33,7 @@ export const CheckoutList = ({ cartData }) => {
     courier: '',
   });
   const handleCost = (e) => {
-    setFinalCost({ method: e?.description, cost: e?.cost });
+    setFinalCost({ method: e?.description, cost: e?.cost });t
   };
   const navigate = useNavigate();
   const handleShipmentValue = (e) => {

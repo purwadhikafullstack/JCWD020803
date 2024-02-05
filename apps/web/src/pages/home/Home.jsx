@@ -13,13 +13,13 @@ function Home() {
   const [productList, setProductList] = useState();
   const [distance, setDistance] = useState();
   const delivery = useSelector((state) => state.delivery.value);
+  const reload = () => window.location.reload();
   const getDistance = async () => {
     if (position) {
       const response = await getDistanceBranch(
         position?.latitude,
         position?.longitude,
       );
-      console.log(response);
       if (response?.status === 200) {
         setBranch(response?.data?.branch);
         setDistance(response?.data?.distance);
