@@ -180,7 +180,7 @@ export const getByDate = async (req, res) => {
 export const addToCheckout = async (req, res) => {
   try {
     const customer = req.customer;
-    const { PaymentMethodId } = req.body;
+    const { PaymentMethodId, shipment_fee, shipment_method } = req.body;
     const paymentMethodId = parseInt(PaymentMethodId);
 
     if (!customer) {
@@ -221,6 +221,8 @@ export const addToCheckout = async (req, res) => {
       CustomerId: customerData.id,
       PaymentMethodId: newPaymentMethod.id,
       sub_total: 0,
+      shipment_fee: shipment_fee,
+      shipment_method: shipment_method,
     });
 
     const activeCarts = await Cart.findAll({

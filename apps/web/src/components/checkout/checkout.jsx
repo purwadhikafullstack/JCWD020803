@@ -1,12 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CartFunction } from '../../utils/cart/cart.function';
 import { shipmentFunction } from '../../utils/transaction/shipment.function';
 import { AiOutlineClose } from 'react-icons/ai';
 
-export const Checkout = ({ deliveried }) => {
+export const Checkout = ({ deliveried, finalCost, shipmenValue }) => {
   const { cartData } = CartFunction();
+  const [totalPrice, setTotalPrice] = useState();
+  const [shipmentFee, setShipmentFee] = useState();
+  const calculateCheckout = (e) => {
+    let fee = 0;
+    if (finalCost) {
+      finalCost?.cost?.map((cost) => {
+        fee = cost?.value;
+        setShipmentFee(cost?.value);
+      });
+    }
+    const total = (fee += e);
+    setTotalPrice(total);
+  };
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const { postData } = shipmentFunction(selectedPaymentMethod);
+  const { postData } = shipmentFunction(
+    selectedPaymentMethod,
+    shipmentFee,
+    finalCost?.method,
+  );
 
   const totalHargaProduk = cartData.reduce(
     (total, item) =>
@@ -20,25 +37,45 @@ export const Checkout = ({ deliveried }) => {
     '',
   );
 
+  useEffect(() => {
+    calculateCheckout(totalHargaProduk);
+  }, [finalCost]);
   return (
     <>
       <div className="w-full xl:w-[30vw] bg-white px-4 py-7 xl:rounded-xl xl:ml-5 h-fit space-y-5 font-poppins">
-        <p className="font-semibold">Shopping Summary</p>
+        <p className="font-semibold">Ringkasan belanja</p>
         <section className="space-y-2">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-sm">
-              <p>Total Product Price</p>
-              <p>{totalHargaProduk}</p>
+              <p>Total Harga Produk</p>
+              <p>
+                {totalHargaProduk?.toLocaleString('id-ID', {
+                  style: 'currency',
+                  currency: 'IDR',
+                })}
+              </p>
             </div>
-            <div className="flex justify-between text-sm">
-              <p>Shipping Cost</p>
-              <p>Rp.0</p>
-            </div>
+            {finalCost?.cost?.map((value) => (
+              <div key={value?.value} className="flex justify-between text-sm">
+                <p>Ongkos kirim</p>
+                <p>
+                  {value?.value.toLocaleString('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                  })}
+                </p>
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-between h-8 font-semibold items-end xl:border-t border-gray-400">
-            <p>Total Spending</p>
-            <p>-</p>
+            <p>Total Belanja</p>
+            <p>
+              {totalPrice?.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+              })}
+            </p>
           </div>
         </section>
         <button className="font-semibold text-gray-800 border w-full border-gray-400 py-3 rounded-lg">
@@ -106,8 +143,13 @@ export const Checkout = ({ deliveried }) => {
             </div>
             <div className="flex justify-between">
               <div className="flex flex-col text-sm">
-                <p>Total Bill</p>
-                <p>{totalHargaProduk}</p>
+                <p>Total Tagihan</p>
+                <p>
+                  {totalPrice?.toLocaleString('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                  })}
+                </p>
               </div>
               <button
                 onClick={postData}

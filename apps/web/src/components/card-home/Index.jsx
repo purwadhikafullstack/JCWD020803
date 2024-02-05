@@ -1,5 +1,3 @@
-import { Button } from '@material-tailwind/react';
-import category_snack from '../../assets/category_snack.jpg';
 import 'aos/dist/aos.css';
 import { CartFunction } from '../../utils/cart/cart.function';
 export const CardHome = ({ productList }) => {

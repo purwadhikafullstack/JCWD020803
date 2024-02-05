@@ -17,14 +17,17 @@ export const ProfileFooter = () => {
     {
       icon: <CiDiscount1 size={'50%'} className="text-main-pink" />,
       title: 'Vouchers',
+      route: '/customer-dashboard/vouchers',
     },
     {
       icon: <MdFavoriteBorder size={'50%'} className="text-main-pink" />,
       title: 'Favourites',
+      // route: 'favourites',
     },
     {
       icon: <MdOutlineHistory size={'50%'} className="text-main-pink" />,
       title: 'Order History',
+      route: '/customer-dashboard/profile/order-history',
     },
   ];
 
@@ -36,7 +39,7 @@ export const ProfileFooter = () => {
       <div className="h-[70%] bg-white mx-2 rounded-lg shadow-lg py-5 tablet:grid tablet:grid-cols-3 tablet:gap-2 tablet:px-4">
         {items?.map((item, idx) => (
           <div
-            className="my-3 h-[30%] w-[80%] border mx-auto hover:bg-main-pink/10 transition duration-300 tablet:w-[100%] tablet:h-[80%] "
+            className="my-3 h-[30%] w-[80%] border mx-auto hover:bg-main-pink/10 transition duration-300 tablet:w-[100%] tablet:h-[80%] cursor-pointer"
             key={idx}
             onClick={() => {
               if (idx == 2) {

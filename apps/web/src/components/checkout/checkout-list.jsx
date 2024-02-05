@@ -1,10 +1,64 @@
 import { useNavigate } from 'react-router-dom';
 import { Checkout } from './checkout';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { Option, Select } from '@material-tailwind/react';
+import { shippingCost } from '../../utils/transaction/shipping.cost';
 
 export const CheckoutList = ({ cartData }) => {
   const deliveried = useSelector((state) => state.delivery.value);
+  const [finalCost, setFinalCost] = useState({ method: '', cost: [] });
+  const couriers = [
+    {
+      name: 'JNE',
+      value: 'jne',
+    },
+    {
+      name: 'TIKI',
+      value: 'tiki',
+    },
+    {
+      name: 'POS',
+      value: 'pos',
+    },
+  ];
+  const [services, setServices] = useState({
+    data: [],
+    disable: true,
+  });
+  const [shipmenValue, setShipmenValue] = useState({
+    weight: null,
+    destination: '',
+    origin: '',
+    courier: '',
+  });
+  const handleCost = (e) => {
+    setFinalCost({ method: e?.description, cost: e?.cost });t
+  };
   const navigate = useNavigate();
+  const handleShipmentValue = (e) => {
+    setShipmenValue({
+      weight: cartData[0]?.Cart_detail?.Product?.weight,
+      destination:
+        cartData[0]?.Cart_detail?.Product?.Branch_products[0]?.Branch?.city_id,
+      origin: deliveried[0]?.City?.city_id,
+      courier: e,
+    });
+  };
+  const handleShippingCost = async () => {
+    if (shipmenValue?.courier) {
+      const response = await shippingCost(shipmenValue);
+      if (response?.data?.rajaongkir?.status?.code === 200) {
+        setServices({
+          data: response?.data?.rajaongkir?.results[0]?.costs,
+          disable: false,
+        });
+      }
+    }
+  };
+  useEffect(() => {
+    handleShippingCost();
+  }, [shipmenValue?.courier]);
   return (
     <div className="pt-6 bg-[#F0F3F7] h-auto pb-10">
       <header className=" w-[100vw] md:w-[80vw] xl:w-[92vw] m-auto xl:flex space-y-2 xl:space-y-[9.5vh]">
@@ -89,17 +143,64 @@ export const CheckoutList = ({ cartData }) => {
                         )}
                       </p>
                     </div>
-                    <p>{item.Cart_detail.Product.descriptions}</p>
-                    <button className="text-black border border-[#6D7588] w-[90vw] md:w-[75vw] absolute xl:static top-[10vh] -left-[21vw] md:top-[11vh] md:-left-[14vw] xl:w-full xl:px-[5vw] py-2.5 rounded-md font-semibold mt-2">
-                      Shipping
-                    </button>
+                    <p>80cm x 30cm 1 barang (1 kg)</p>
+                    <div className="flex flex-col justify-between gap-5 laptop:flex laptop:gap-2 ">
+                      <Select
+                        label="Choose courier"
+                        onChange={(e) => handleShipmentValue(e)}
+                      >
+                        {couriers?.map((couriers) => (
+                          <Option key={couriers?.value} value={couriers?.value}>
+                            {couriers?.name}
+                          </Option>
+                        ))}
+                      </Select>
+                      <Select
+                        label="Choose services..."
+                        disabled={services?.disable === true}
+                        onChange={(e) => handleCost(e)}
+                      >
+                        {services?.data?.map((service) => (
+                          <Option key={service?.service} value={service}>
+                            <div className="pr-10">
+                              <div className="flex justify-between items-center">
+                                <div>
+                                  <p className="font-bold mb-2 text-sm">
+                                    {`${shipmenValue?.courier.toUpperCase()} ${
+                                      service?.service
+                                    }`}
+                                  </p>
+                                  <p>{service?.description}</p>
+                                </div>
+                                {service?.cost?.map((costs) => (
+                                  <div key={costs}>
+                                    <p className="font-bold">
+                                      {costs?.value.toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR',
+                                      })}
+                                    </p>
+                                    <p>Estimasi : {costs?.etd} hari</p>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </Option>
+                        ))}
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </div>
             </section>
           ))}
         </div>
-        <Checkout cartData={cartData} deliveried={deliveried} />
+        <Checkout
+          cartData={cartData}
+          deliveried={deliveried}
+          finalCost={finalCost}
+          shipmenValue={shipmenValue?.courier}
+        />
       </header>
     </div>
   );

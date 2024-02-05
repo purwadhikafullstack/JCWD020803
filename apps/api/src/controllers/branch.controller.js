@@ -2,19 +2,20 @@ import Branch from '../models/branch.model';
 import Admin from '../models/admin.model';
 import Customer from '../models/customer.model';
 import Branch_Product from '../models/branch_product.model';
-import Product from '../models/product.model';
 
 export const getAllBranch = async (req, res) => {
   const { pages } = req?.query;
+  console.log(pages);
   try {
     const page = parseInt(pages);
-    const pageSize = parseInt(req.query.pageSize) || 1;
+    const pageSize = 2;
     const offset = (page - 1) * pageSize;
 
     const totalCount = await Branch.count();
     const totalPages = Math.ceil(totalCount / pageSize);
 
     const results = await Branch.findAll({
+      where: { isDeleted: false },
       include: [
         {
           model: Admin,
@@ -46,10 +47,22 @@ export const addBranch = async (req, res) => {
       head_store = true;
     }
     const branchExist = await Branch.findOne({
-      where: { branch_name: data?.branch_name, address: data?.address },
+      where: {
+        branch_name: data?.branch_name,
+        address: data?.address,
+      },
+
     });
+    const adminExist = await Branch.findOne({
+      where: { AdminId: data?.AdminId },
+    });
+
     if (branchExist) {
       return res.status(400).send('Branch already exists');
+    }
+
+    if (adminExist) {
+      return res.status(400).send('Admins are not allowed to have 2 branches');
     }
     await Branch.create({
       branch_name: data?.branch_name,
@@ -146,34 +159,37 @@ export const getDistanceBranch = async (req, res) => {
     if (lat && lng) {
       const branches = await Branch.findAll();
       const randomRadius = generateRandomRadius();
-      const filteredBranches = branches.filter((branch) => {
+      branches.forEach((branch) => {
         const distance = haversine(
           parseFloat(lat),
           parseFloat(lng),
           branch.latitude,
           branch.longitude,
         );
-        return distance <= randomRadius;
+        branch.distance = distance;
       });
-      if (filteredBranches?.length >= 1) {
-        return res.status(200).send({ branches: filteredBranches[0] });
-      } else {
+      branches.sort((a, b) => a.distance - b.distance);
+      const closestBranch = branches.find(
+        (branch) => branch.distance <= randomRadius,
+      );
+      if (closestBranch) {
         return res
-          .status(400)
-          .send(
-            'Store doesnt find in your location, please choose different location.',
-          );
+          .status(200)
+          .send({ branch: closestBranch, distance: closestBranch.distance });
+      } else {
+        return res.status(400).send('Your location is so far from distance branch');
       }
     } else {
       const results = await Branch.findOne({
         where: { head_store: true },
       });
-      return res.status(200).send({ branches: results });
+      return res.status(200).send({ branch: results });
     }
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
+
 export const getHeadBranch = async (req, res) => {
   try {
     const results = await Branch.findOne({
