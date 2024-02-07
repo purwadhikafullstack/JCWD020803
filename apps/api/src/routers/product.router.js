@@ -6,6 +6,7 @@ import {
   editProduct,
   getProduct,
   getProductOutsideBranch,
+
 } from '../controllers/product.controller';
 import {
   verifyAdminToken,

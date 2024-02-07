@@ -64,7 +64,7 @@ export const CheckoutList = ({ cartData }) => {
       <header className=" w-[100vw] md:w-[80vw] xl:w-[92vw] m-auto xl:flex space-y-2 xl:space-y-[9.5vh]">
         <div className="md:w-[80vw] xl:w-[61vw] ">
           <div className="hidden xl:block text-3xl font-bold text-black">
-            Pengiriman
+            Shipping
           </div>
           {deliveried?.length >= 1 ? (
             deliveried?.map((delivery) => (
@@ -94,26 +94,26 @@ export const CheckoutList = ({ cartData }) => {
                   className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"
                   onClick={() => navigate('/customer-dashboard/address')}
                 >
-                  {deliveried ? 'Pilih Alamat Lain' : 'Tambah Alamat'}
+                  {deliveried ? 'Choose another address' : 'Add address'}
                 </button>
               </section>
             ))
           ) : (
             <section className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg">
               <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
-                ALAMAT PENGIRIMAN
+                SHIPPING ADDRESS
               </p>
               <p className="text-sm">
-                <span className="font-bold">Anda belum memiliki alamat</span>
+                <span className="font-bold">you don't have an address yet</span>
               </p>
               <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
-                <p>Silahkan tambah alamat</p>
+                <p>Choose another address</p>
               </div>
               <button
                 className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"
                 onClick={() => navigate('/customer-dashboard/address')}
               >
-                Tambah alamat
+                add address
               </button>
             </section>
           )}

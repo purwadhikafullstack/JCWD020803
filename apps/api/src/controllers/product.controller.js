@@ -5,6 +5,7 @@ import Branch_product from '../models/branch_product.model';
 import Branch from '../models/branch.model';
 import { Op } from 'sequelize';
 
+
 export const addProduct = async (req, res) => {
   try {
     const {

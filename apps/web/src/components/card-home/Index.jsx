@@ -5,9 +5,9 @@ export const CardHome = ({ productList }) => {
   const token = localStorage.getItem('token');
   return (
     <section className="font-poppins">
-      <div className="text-center px-[15%] pt-5">
+      <div className="text-center px-[15%] py-5 laptop:py-5 border-t-2 laptop:mt-5 border-gray-200">
         <p
-          className="font-poppins text-[25px] font-semibold"
+          className="font-poppins text-[20px] font-semibold"
           data-aos="fade-up"
           data-aos-duration="1000"
         >
