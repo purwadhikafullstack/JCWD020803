@@ -11,7 +11,9 @@ function Home() {
   const position = useSelector((state) => state.position.value);
   const [branch, setBranch] = useState();
   const [productList, setProductList] = useState();
+  const [distance, setDistance] = useState();
   const delivery = useSelector((state) => state.delivery.value);
+  const reload = () => window.location.reload();
   const getDistance = async () => {
     if (position) {
       const response = await getDistanceBranch(
@@ -44,7 +46,7 @@ function Home() {
   }, [branch]);
   return (
     <Layout>
-      <MainCarousel branch={branch} deliveried={delivery} />
+      <MainCarousel branch={branch} deliveried={delivery} distance={distance} />
       <CardHome productList={productList} />
     </Layout>
   );
