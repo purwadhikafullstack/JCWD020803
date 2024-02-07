@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/home/Home';
 import RegisterUser from './pages/register-user/Register';
-import LoginUser from './pages/login-user/loginPage';
+import LoginUser from './pages/login-user/LoginPage';
 import UserRequired from './pages/required/user.required';
 import { keepLoginCustomer } from './utils/customer/keep.login.customer';
 import ResetPasswordPage from './pages/forgot-password-page/Index';
