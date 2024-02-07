@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { ProfileDetail } from './profile-detail/Index';
 import { CustomerAddress } from './user-address/Index';
-import { ChangePasswordCustomer } from './change-password/Index';
+import { ChangePasswordCustomer } from './change-password/index';
 import { UserVouchers } from './profile-detail/voucher/Index';
 
 function CustomerProfile() {
