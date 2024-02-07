@@ -125,7 +125,14 @@ export const OrderHistory = () => {
                                 Quantity: {product.quantity}
                               </p>
                             </div>
-                            <p>80cm x 30cm 1 barang (1 kg)</p>
+                            <p>Courier: {order.shipment_method}</p>
+                            <p>
+                              Cost:{' '}
+                              {order.shipment_fee?.toLocaleString('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR',
+                              })}
+                            </p>
                             {order.status === 'Waiting Payment' && (
                               <div className="flex space-x-3 xl:space-x-5 justify-end">
                                 <button

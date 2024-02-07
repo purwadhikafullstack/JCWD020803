@@ -11,7 +11,6 @@ function Home() {
   const position = useSelector((state) => state.position.value);
   const [branch, setBranch] = useState();
   const [productList, setProductList] = useState();
-  const [distance, setDistance] = useState();
   const delivery = useSelector((state) => state.delivery.value);
   const getDistance = async () => {
     if (position) {
@@ -19,10 +18,8 @@ function Home() {
         position?.latitude,
         position?.longitude,
       );
-      console.log(response);
       if (response?.status === 200) {
-        setBranch(response?.data?.branch);
-        setDistance(response?.data?.distance);
+        setBranch(response?.data);
       } else {
         toast.warn(response?.response?.data, {
           position: 'top-right',
@@ -33,7 +30,7 @@ function Home() {
   };
   const getProductBranch = async () => {
     if (branch) {
-      const response = await getProductByBranch(branch?.id);
+      const response = await getProductByBranch(branch?.branch?.id);
       setProductList(response?.data?.results);
     }
   };
@@ -47,7 +44,7 @@ function Home() {
   }, [branch]);
   return (
     <Layout>
-      <MainCarousel branch={branch} deliveried={delivery} distance={distance} />
+      <MainCarousel branch={branch} deliveried={delivery} />
       <CardHome productList={productList} />
     </Layout>
   );

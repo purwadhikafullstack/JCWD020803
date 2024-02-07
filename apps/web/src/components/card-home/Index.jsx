@@ -2,7 +2,7 @@ import 'aos/dist/aos.css';
 import { CartFunction } from '../../utils/cart/cart.function';
 export const CardHome = ({ productList }) => {
   const { addToCart } = CartFunction();
-
+  const token = localStorage.getItem('token');
   return (
     <section className="font-poppins">
       <div className="text-center px-[15%] pt-5">
@@ -14,14 +14,16 @@ export const CardHome = ({ productList }) => {
           All product in Ez Mart Store
         </p>
       </div>
-      <div className="snap-mandatory snap-x flex overflow-x-scroll overflow-y-hidden whitespace-nowrap py-3 laptop:grid grid-cols-6 laptop:overflow-x-hidden px-[3%]">
+      <div className="snap-mandatory snap-x flex gap-5 overflow-x-scroll overflow-y-hidden whitespace-nowrap py-3 laptop:snap-mandatory laptop:snap-x laptop:whitespace-nowrap  laptop:flex laptop:gap-3 laptop:w-[100%] laptop:overflow-x-scroll laptop:items-center px-[3%]">
         {productList?.map((product) => (
           <div
-            className="snap-center rounded-xl px-2 w-[300px] flex justify-between flex-col shadow-lg laptop:h-[380px] laptop:w-[200px] laptop:hover:scale-105 transition duration-300"
+            className="snap-center rounded-xl px-2 w-[300px] flex justify-between flex-col shadow-lg laptop:snap-center laptop:h-[400px] laptop:w-[200px] laptop:hover:scale-105 transition duration-300"
             key={product?.Product?.id}
+            data-aos="fade-up"
+            data-aos-duration="1000"
           >
             <div
-              className="w-[200px] mx-auto cursor-pointer laptop:w-[100%] laptop:h-[90%]"
+              className="w-[200px] mx-auto cursor-pointer laptop:w-[100%] laptop:h-[100%]"
               data-aos="fade-up"
               data-aos-duration="1000"
             >
@@ -34,17 +36,17 @@ export const CardHome = ({ productList }) => {
               ))}
             </div>
             <div className="flex flex-col gap-7 pb-2">
-              <div className="flex flex-col py-2 gap-5">
-                <div>
+              <div className="flex flex-col py-2 gap-5 laptop:w-[200px]">
+                <div className="w-[90%]">
                   <h1
-                    className=" font-poppins text-black font-bold text-[20px] laptop:text-[14px]"
+                    className=" font-poppins text-black font-bold text-[14px] laptop:text-[14px]"
                     data-aos="fade-up"
                     data-aos-duration="1000"
                   >
                     {product?.Product?.product_name}
                   </h1>
                   <small
-                    className="font-poppins text-main-blue"
+                    className="font-poppins text-main-blue laptop:text-[11px]"
                     data-aos="fade-up"
                     data-aos-duration="1000"
                   >
@@ -57,10 +59,18 @@ export const CardHome = ({ productList }) => {
                     currency: 'IDR',
                   })}
                 </h1>
+                <p className="font-poppins text-[10px] laptop:text-[12px] font-bold">
+                  {product?.quantity} Stock avaible in store
+                </p>
               </div>
               {product?.Product?.isDisabled === false ? (
                 <button
-                  className="px-5 py-2 bg-main-red text-white rounded-lg text-sm font-bold"
+                  disabled={!token}
+                  className={`${
+                    token
+                      ? 'px-5 py-2 bg-main-red text-white rounded-lg text-sm font-bold'
+                      : 'px-5 py-2 bg-gray-500 text-white rounded-lg text-sm font-bold cursor-not-allowed'
+                  }`}
                   onClick={() => addToCart(product?.ProductId)}
                 >
                   +Basket
