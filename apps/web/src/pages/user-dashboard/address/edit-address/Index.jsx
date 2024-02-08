@@ -1,5 +1,5 @@
 import { ProfileHeader } from '../../../../components/customers/user-profile/profile-detail/Header';
-import { EditAddress } from '../../../../components/customers/user-profile/user-address/editAddress';
+import { EditAddress } from '../../../../components/customers/user-profile/user-address/EditAddress';
 
 function EditAddressPage() {
   return (
