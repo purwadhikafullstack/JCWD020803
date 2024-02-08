@@ -3,7 +3,6 @@ import { ProfileDetail } from './profile-detail/Index';
 import { CustomerAddress } from './user-address/Index';
 import { ChangePasswordCustomer } from './change-password/index';
 import { UserVouchers } from './profile-detail/voucher/index';
-
 function CustomerProfile() {
   const params = useParams();
   return (
