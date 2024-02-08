@@ -41,8 +41,8 @@ import { AdminTransaction } from './components/transaction-admin/admin-transacti
 import { ManageTransaction } from './pages/admin/ManageTransaction';
 import CreatePasswordPage from './pages/register-user/create-password/Index';
 import VerifyCodePages from './pages/user-dashboard/profle-detail-page/verification-code/Index';
-import DetailVouchersPage from './pages/user-dashboard/detail-vouchers';
-import ReverificationPage from './pages/reverification-page';
+import DetailVouchersPage from './pages/user-dashboard/detail-vouchers/index';
+import ReverificationPage from './pages/reverification-page/index';
 import CustomerProfile from './components/customers/user-profile/Index';
 
 const router = createBrowserRouter([
