@@ -1,5 +1,5 @@
 import { Layout } from '../../../../components/customers/Index';
-import { VerifyCode } from '../../../../components/customers/user-profile/profile-detail/VerifyCode';
+import { VerifyCode } from '../../../../components/customers/user-profile/profile-detail/verifyCode';
 
 function VerifyCodePages() {
   return (
