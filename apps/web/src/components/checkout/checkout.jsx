@@ -26,15 +26,8 @@ export const Checkout = ({ deliveried, finalCost, shipmenValue }) => {
   );
 
   const totalHargaProduk = cartData.reduce(
-    (total, item) =>
-      total +
-      (
-        item.Cart_detail.quantity * item.Cart_detail.Product.price
-      ).toLocaleString('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-      }),
-    '',
+    (total, item) => total + item?.quantity * item.Product.price,
+    0,
   );
 
   useEffect(() => {

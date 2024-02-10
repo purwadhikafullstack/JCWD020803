@@ -29,10 +29,10 @@ export const ProductListCheckout = () => {
                 />
               </div>
               <p className="ml-1 md:ml-6 xl:ml-6 w-[24vw] md:w-[23.5vw] xl:w-[24vw] h-fit">
-                {cartItem.Cart_detail?.Product.product_name}
+                {cartItem?.Product.product_name}
               </p>
               <p className="w-[19vw] md:w-[16vw] xl:w-[10vw] mr-2">
-                {cartItem.Cart_detail?.Product.price.toLocaleString('id-ID', {
+                {cartItem?.Product.price.toLocaleString('id-ID', {
                   style: 'currency',
                   currency: 'IDR',
                 })}
@@ -42,21 +42,21 @@ export const ProductListCheckout = () => {
                   className="pb-1 xl:pb-0 font-semibold"
                   onClick={() =>
                     handleQuantityChange(
-                      cartItem.Cart_detail.id,
-                      cartItem.Cart_detail?.quantity - 1,
+                      cartItem.id,
+                      cartItem?.quantity - 1,
                       'decrement',
                     )
                   }
                 >
                   -
                 </div>
-                <div>{cartItem.Cart_detail?.quantity}</div>
+                <div>{cartItem?.quantity}</div>
                 <div
                   className="pb-0 font-semibold"
                   onClick={() =>
                     handleQuantityChange(
-                      cartItem.Cart_detail.id,
-                      cartItem.Cart_detail?.quantity + 1,
+                      cartItem.id,
+                      cartItem?.quantity + 1,
                       'increment',
                     )
                   }
@@ -65,7 +65,7 @@ export const ProductListCheckout = () => {
                 </div>
               </div>
               <button
-                onClick={() => handleDeleteItem(cartItem.Cart_detail.id)}
+                onClick={() => handleDeleteItem(cartItem.id)}
                 className="mr-4 ml-4 md:ml-[7.5vw] xl:ml-[7vw] cursor-pointer hover:text-main-red transition-all"
               >
                 <BsTrash className="text-[1.5rem]" />

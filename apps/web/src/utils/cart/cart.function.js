@@ -6,10 +6,10 @@ export const CartFunction = () => {
 
   const token = localStorage.getItem('token');
 
-  const fetchData = async () => {
+  const fetchData = async (cartId) => {
     try {
       const response = await axios.get(
-        'http://localhost:8000/api/cart/active',
+        `http://localhost:8000/api/cart/active?id=${cartId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
