@@ -1,10 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { ProfileDetail } from './profile-detail/Index';
 import { CustomerAddress } from './user-address/Index';
-import { ChangePasswordCustomer } from './change-password';
-import { UserVouchers } from './profile-detail/voucher';
-
-export const CustomerProfile = () => {
+import { ChangePasswordCustomer } from './change-password/index';
+import { UserVouchers } from './profile-detail/voucher/index';
+function CustomerProfile() {
   const params = useParams();
   return (
     <div>
@@ -19,4 +18,6 @@ export const CustomerProfile = () => {
       ) : null}
     </div>
   );
-};
+}
+
+export default CustomerProfile;

@@ -1,4 +1,3 @@
-import { Layout } from '../..';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FcApproval } from 'react-icons/fc';
 import { verifyAccount } from '../../../../utils/customer/change.email';
@@ -14,7 +13,6 @@ export const VerifyNewEmail = () => {
   };
 
   return (
-    // <Layout>
     <div className="flex flex-col h-[300px]  items-center justify-center">
       <div>
         <h1 className="font-poppins">Verification Success</h1>
@@ -29,6 +27,5 @@ export const VerifyNewEmail = () => {
         </button>
       </div>
     </div>
-    // </Layout>
   );
 };

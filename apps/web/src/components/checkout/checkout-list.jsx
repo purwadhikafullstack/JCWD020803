@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Option, Select } from '@material-tailwind/react';
 import { shippingCost } from '../../utils/transaction/shipping.cost';
+import formatRupiah from '../../libs/formatCurrency';
 
 export const CheckoutList = ({ cartData }) => {
   const deliveried = useSelector((state) => state.delivery.value);
@@ -70,18 +71,26 @@ export const CheckoutList = ({ cartData }) => {
           {deliveried?.length >= 1 ? (
             deliveried?.map((delivery) => (
               <section
-                className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg"
+                className="-mt-8 xl:mt-6 space-y-2 bg-white px-5 py-6 xl:rounded-xl shadow-lg font-poppins"
                 key={delivery?.id}
               >
                 <p className="xl:font-semibold text-xs xl:text-sm text-[#6D7588]">
                   SHIPPING ADDRESS
                 </p>
                 <p className="text-sm">
-                  <span className="font-bold">{delivery?.received_name}</span> (
-                  {delivery?.label_address})
+                  Nama Penerima:
+                  <span className="font-bold">
+                    {' '}
+                    {delivery?.received_name}
+                  </span>{' '}
+                  ({delivery?.label_address})
                 </p>
+                <p className="text-sm">Contact: {delivery?.phone_number}</p>
                 <div className="h-6 overflow-hidden xl:w-fit xl:h-fit">
-                  <p>{delivery?.street}</p>
+                  <p>
+                    {delivery?.street}, {delivery?.City?.city},{' '}
+                    {delivery?.City?.Province?.province}
+                  </p>
                 </div>
                 <button
                   className="hidden xl:block border border-[#6D7588] rounded-lg px-4 text-md text-[#6D7588] font-semibold"

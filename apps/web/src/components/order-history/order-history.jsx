@@ -2,7 +2,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Navbar } from '../navbar/Index';
 import { shipmentFunction } from '../../utils/transaction/shipment.function';
-import { Footer } from '../footer';
+import { Footer } from '../footer/Index';
 import { StatusOrder } from './status-order';
 import { OrderFilter } from './order-filter';
 import { useEffect, useState } from 'react';
@@ -151,6 +151,14 @@ export const OrderHistory = () => {
                                 Quantity: {product.quantity}
                               </p>
                             </div>
+                            <p>Courier: {order.shipment_method}</p>
+                            <p>
+                              Cost:{' '}
+                              {order.shipment_fee?.toLocaleString('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR',
+                              })}
+                            </p>
                             <p>{product.Product.descriptions}</p>
                             {order.status === 'Waiting Payment' && (
                               <div className="flex space-x-3 xl:space-x-5 justify-end">

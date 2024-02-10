@@ -65,7 +65,7 @@ export const DetailVouchers = () => {
             </div>
             <div className="flex flex-col gap-3">
               <div>
-                <h1 className='font-bold'>Voucher Code : </h1>
+                <h1 className="font-bold">Voucher Code : </h1>
                 <Tooltip
                   content={copied ? 'Copied' : 'Copy'}
                   placement="bottom"
@@ -79,9 +79,7 @@ export const DetailVouchers = () => {
                     }}
                     className="flex items-center gap-x-3 hover:shadow-none bg-white text-black  shadow-none uppercase"
                   >
-                    <Typography
-                      className="border-r border-gray-400/50 pr-3 text-black text-[14px] font-poppins"
-                    >
+                    <Typography className="border-r border-gray-400/50 pr-3 text-black text-[14px] font-poppins">
                       {item?.voucher_code}
                     </Typography>
                     {copied ? (

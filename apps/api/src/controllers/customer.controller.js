@@ -86,7 +86,6 @@ export const createCustomer = async (req, res) => {
         const referralMatches = await Customer.findOne({
           where: { referral_code: referralCode },
         });
-        console.log(referralMatches);
         if (!referralMatches) {
           return res.status(400).send('Referral doesnt match');
         } else {
@@ -140,6 +139,11 @@ export const createCustomer = async (req, res) => {
         username,
         email,
         referral_code: referral,
+      });
+      await User_voucher.create({
+        CustomerId: add?.id,
+        vouchers_amount: 1,
+        VoucherId: 1,
       });
       verifyCustomer(add);
       return res
@@ -317,6 +321,12 @@ export const addedPhoneCustomer = async (req, res) => {
   const { id } = req.customer;
   const { phone_number } = req?.body;
   try {
+    const isExist = await Customer.findOne({
+      where: { phone_number: phone_number },
+    });
+    if (isExist) {
+      return res.status(400).send('Phone number already exists');
+    }
     await Customer.update(
       { phone_number: phone_number, phoneVerified: false },
       { where: { id: id } },

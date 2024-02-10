@@ -30,6 +30,7 @@ export const Struk = () => {
     handleTotalPrice();
   }, []);
 
+
   return (
     <>
       <div className="absolute rounded-lg bg-white w-full md:w-[40vw] md:h-[34vh] xl:w-[22vw] py-4 xl:h-[57vh] -bottom-[30vh] left-0 md:top-[35vh] xl:top-0 xl:left-[67vw] shadow-2xl">

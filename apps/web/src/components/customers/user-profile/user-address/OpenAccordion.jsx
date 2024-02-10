@@ -10,8 +10,8 @@ import mapIcon from '../../../../assets/map.png';
 import { useState } from 'react';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { FormNewAddress } from './form';
-import { OpenMaps } from './maps';
+import { FormNewAddress } from './Form';
+import { OpenMaps } from './Maps';
 import { fetchMapboxGeocode } from '../../../../utils/address/fetch.mapbox.geocode';
 
 export const OpenAccordion = ({
@@ -37,6 +37,7 @@ export const OpenAccordion = ({
   const handleBenchmark = (e) => setBenchmark(e);
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
+
   const handleDetailAddress = async () => {
     setLoading(true);
     try {
@@ -45,7 +46,7 @@ export const OpenAccordion = ({
       setLoading(false);
       setDirect(false);
     } catch (error) {
-      return error
+      return error;
     }
   };
   const handleClick = (event) => {
@@ -70,7 +71,7 @@ export const OpenAccordion = ({
           <div className="relative justify-between flex gap-12 mb-2">
             <Input
               label="Search benchmark"
-              variant='standard'
+              variant="standard"
               value={benchmark}
               onChange={(e) => handleBenchmark(e?.target?.value)}
             />
@@ -101,8 +102,6 @@ export const OpenAccordion = ({
             setGeo={setGeo}
             geo={geo}
             loading={loading}
-            direct={direct}
-            setDirect={setDirect}
             handleDrag={handleDrag}
           />
         </AccordionBody>

@@ -7,13 +7,11 @@ import { getDistanceBranch } from '../../utils/branch/get.distance.branch';
 import { getProductByBranch } from '../../utils/branch-product/getProductByBranch';
 import { toast } from 'react-toastify';
 
-function Home() {
+function Home({ placeName }) {
   const position = useSelector((state) => state.position.value);
   const [branch, setBranch] = useState();
   const [productList, setProductList] = useState();
-  const [distance, setDistance] = useState();
   const delivery = useSelector((state) => state.delivery.value);
-  const reload = () => window.location.reload();
   const getDistance = async () => {
     if (position) {
       const response = await getDistanceBranch(
@@ -21,8 +19,7 @@ function Home() {
         position?.longitude,
       );
       if (response?.status === 200) {
-        setBranch(response?.data?.branch);
-        setDistance(response?.data?.distance);
+        setBranch(response?.data);
       } else {
         toast.warn(response?.response?.data, {
           position: 'top-right',
@@ -33,7 +30,7 @@ function Home() {
   };
   const getProductBranch = async () => {
     if (branch) {
-      const response = await getProductByBranch(branch?.id);
+      const response = await getProductByBranch(branch?.branch?.id);
       setProductList(response?.data?.results);
     }
   };
@@ -46,8 +43,8 @@ function Home() {
     getProductBranch();
   }, [branch]);
   return (
-    <Layout>
-      <MainCarousel branch={branch} deliveried={delivery} distance={distance} />
+    <Layout placeName={placeName}>
+      <MainCarousel branch={branch} deliveried={delivery} />
       <CardHome productList={productList} />
     </Layout>
   );
