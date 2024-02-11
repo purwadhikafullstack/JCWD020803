@@ -1,6 +1,8 @@
 import 'aos/dist/aos.css';
 import { CartFunction } from '../../utils/cart/cart.function';
 import formatRupiah from '../../libs/formatCurrency';
+import { CardPlacehoderSkeleton } from './skeleton';
+
 export const CardHome = ({ productList }) => {
   const { addToCart } = CartFunction();
   const token = localStorage.getItem('token');
