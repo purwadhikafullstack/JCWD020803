@@ -2,6 +2,7 @@ import { BsTrash } from 'react-icons/bs';
 import cartImg from '../../assets/shopping-cart.png';
 import { useEffect, useState } from 'react';
 import { CartFunction } from '../../utils/cart/cart.function';
+import formatRupiah from '../../libs/formatCurrency';
 
 export const ProductListCheckout = () => {
   const { cartData, handleDeleteItem, handleQuantityChange } = CartFunction();
@@ -32,10 +33,7 @@ export const ProductListCheckout = () => {
                 {cartItem?.Product.product_name}
               </p>
               <p className="w-[19vw] md:w-[16vw] xl:w-[10vw] mr-2">
-                {cartItem?.Product.price.toLocaleString('id-ID', {
-                  style: 'currency',
-                  currency: 'IDR',
-                })}
+                {formatRupiah(cartItem?.Product.price)}
               </p>
               <div className="flex justify-center cursor-pointer space-x-4 px-2 w-[18vw] h-[3vh] md:w-[13vw] xl:w-[7vw] xl:h-[5vh] items-center rounded-full bg-gray-200 ml-2">
                 <div

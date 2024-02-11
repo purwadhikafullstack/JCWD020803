@@ -34,6 +34,7 @@ export const Checkout = ({ deliveried, finalCost, shipmenValue }) => {
   useEffect(() => {
     calculateCheckout(totalHargaProduk);
   }, [finalCost]);
+
   return (
     <>
       <div className="w-full xl:w-[30vw] bg-white px-4 py-7 xl:rounded-xl xl:ml-5 h-fit space-y-5 font-poppins">
@@ -42,12 +43,7 @@ export const Checkout = ({ deliveried, finalCost, shipmenValue }) => {
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-sm">
               <p>Total Harga Produk</p>
-              <p>
-                {totalHargaProduk?.toLocaleString('id-ID', {
-                  style: 'currency',
-                  currency: 'IDR',
-                })}
-              </p>
+              <p>{formatRupiah(totalHargaProduk)}</p>
             </div>
             {finalCost?.cost?.map((value) => (
               <div key={value?.value} className="flex justify-between text-sm">
@@ -59,12 +55,7 @@ export const Checkout = ({ deliveried, finalCost, shipmenValue }) => {
 
           <div className="flex justify-between h-8 font-semibold items-end xl:border-t border-gray-400">
             <p>Total Belanja</p>
-            <p>
-              {totalPrice?.toLocaleString('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-              })}
-            </p>
+            <p>{totalPrice ? formatRupiah(totalPrice) : null}</p>
           </div>
         </section>
         <button className="font-semibold text-gray-800 border w-full border-gray-400 py-3 rounded-lg">
@@ -133,19 +124,20 @@ export const Checkout = ({ deliveried, finalCost, shipmenValue }) => {
             <div className="flex justify-between">
               <div className="flex flex-col text-sm">
                 <p>Total Tagihan</p>
-                <p>
-                  {totalPrice?.toLocaleString('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                  })}
-                </p>
+                <p>{totalPrice ? formatRupiah(totalPrice) : null}</p>
               </div>
-              <button
-                onClick={postData}
-                className="bg-main-red text-white px-[6.5vw] rounded-md"
-              >
-                Pay
-              </button>
+              {finalCost.method == '' ? (
+                <div className="text-yellow-800">
+                  Please Choose Courier First
+                </div>
+              ) : (
+                <button
+                  onClick={postData}
+                  className="bg-main-red text-white px-[6.5vw] rounded-md"
+                >
+                  Pay
+                </button>
+              )}
             </div>
           </div>
         </dialog>
