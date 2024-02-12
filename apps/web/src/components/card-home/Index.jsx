@@ -1,28 +1,28 @@
 import 'aos/dist/aos.css';
 import { CartFunction } from '../../utils/cart/cart.function';
-import { toast } from 'react-toastify';
 import formatRupiah from '../../libs/formatCurrency';
 import { CardPlacehoderSkeleton } from './skeleton';
+import { toast } from 'react-toastify';
+
 export const CardHome = ({ productList }) => {
-  console.log(productList);
   const { addToCart } = CartFunction();
   const token = localStorage.getItem('token');
-  const handleCart = (id) => {
+
+  const handleCart = (productId, BranchId) => {
     if (!token) {
       return toast.warn('Please login first or create a new account', {
         autoClose: 3000,
         position: 'top-right',
       });
     } else {
-      console.log(id);
-      addToCart(id);
+      addToCart(productId, BranchId);
     }
   };
   return (
     <section className="font-poppins">
-      <div className="text-center px-[15%] py-5 laptop:py-5 border-t-2 laptop:mt-5 border-gray-200">
+      <div className="text-center px-[15%] pt-5">
         <p
-          className="font-poppins text-[20px] font-semibold"
+          className="font-poppins text-[25px] font-semibold"
           data-aos="fade-up"
           data-aos-duration="1000"
         >
@@ -65,7 +65,9 @@ export const CardHome = ({ productList }) => {
                 {product?.Product?.isDisabled === false ? (
                   <button
                     className="px-5 py-2 bg-main-red text-white rounded-lg text-sm font-bold cursor-pointer"
-                    onClick={() => handleCart(product?.ProductId)}
+                    onClick={() =>
+                      handleCart(product?.ProductId, product?.BranchId)
+                    }
                   >
                     +Basket
                   </button>

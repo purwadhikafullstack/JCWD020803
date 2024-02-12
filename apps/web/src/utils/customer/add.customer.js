@@ -33,7 +33,6 @@ export const validateReferral = async (referral_code) => {
     if (error?.response && error?.response?.status === 400) {
       return false;
     } else {
-      console.log(error);
       return false;
     }
   }
