@@ -7,7 +7,7 @@ export const getAllBranch = async (req, res) => {
   const { pages } = req?.query;
   try {
     const page = parseInt(pages);
-    const pageSize = 2;
+    const pageSize = 5;
     const offset = (page - 1) * pageSize;
 
     const totalCount = await Branch.count();
