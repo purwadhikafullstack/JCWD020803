@@ -6,7 +6,6 @@ import {
   CiShoppingCart,
 } from 'react-icons/ci';
 import { ProfileNavigation } from '../Navigation';
-
 export const ProfileHeader = ({ title, link, textLink }) => {
   const items = [
     {
