@@ -9,7 +9,6 @@ import { IoChevronForwardSharp } from 'react-icons/io5';
 export const CardHome = ({ productList, handleMore, page, count, load }) => {
   const { addToCart } = CartFunction();
   const token = localStorage.getItem('token');
-
   const handleCart = (productId, BranchId) => {
     if (!token) {
       return toast.warn('Please login first or create a new account', {
